@@ -8,7 +8,6 @@ import Link from 'next/link'
 
 interface pageProps {
   darkMode: boolean;
-  handletoggle: boolean;
 }
 
 interface FormData {
@@ -26,7 +25,7 @@ interface Errors {
 }
  
   
-const Register: React.FC<pageProps> = ({ darkMode, handletoggle }) => {
+const Register: React.FC<pageProps> = ({ darkMode }) => {
     const [recaptchaValue, setRecaptchaValue] = useState<string | null>(null);
     const [showEmailForm, setShowEmailForm] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
