@@ -120,7 +120,7 @@ const Login: React.FC<pageProps> = ({ darkMode, handletoggle }) => {
                Sign in with Google
             </button>
             <p className='text-lg text-bold text-center mt-6'>
-              Don't have an account: <Link href='/register' ><span style={{ color: '#144ee3', textDecoration: 'underline' }} className='ml-2'>Sign up</span></Link>
+              Do not have an account: <Link href='/register' ><span style={{ color: '#144ee3', textDecoration: 'underline' }} className='ml-2'>Sign up</span></Link>
             </p>
           </div>
         </div>

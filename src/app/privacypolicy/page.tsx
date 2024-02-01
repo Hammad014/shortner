@@ -1,4 +1,5 @@
-import React from 'react'
+import React from 'react';
+import Image from 'next/image';
 
 const page = () => {
   return (
@@ -7,7 +8,7 @@ const page = () => {
         {/* <Navbar showSignIn={true} showRegister={true} /> */}
         <div className='articles max-w-5xl mt-10 ml-10 p-6'>
           <h1 className='font-semibold text-justify text-3xl mb-4'>
-            Privacy Policy for <img className='inline h-8' src='./images/Linkly.png' alt='Linkly Logo' /> :
+            Privacy Policy for <Image className='inline h-8' width={130} height={40} src='./images/Linkly.png' alt='Linkly Logo' /> :
           </h1>
 
           <section className='mb-6'>
@@ -89,7 +90,7 @@ const page = () => {
           </section>
 
           <section className='mb-6'>
-            <h2 className='text-2xl font-semibold mb-2'>8. Children's Privacy</h2>
+            <h2 className='text-2xl font-semibold mb-2'>8. Children Privacy</h2>
             <p>Our services are not intended for users under the age of 13. We do not knowingly collect personal information from children.</p>
           </section>
 

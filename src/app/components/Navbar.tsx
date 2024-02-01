@@ -43,7 +43,7 @@ const Navbar: React.FC<NavbarProps> = ({ showSignIn, showRegister }) => {
   {showSignIn && (
     <Link href='/login' style={{border:'2px solid white',backgroundColor:'#181e29',borderRadius:'30px'}} className='flex font-semibold items-center p-4 rounded-3xl cursor-pointer'>
       <p className='rounded-2xl pr-1'>Login </p>
-      <img src='./images/sign-in.png' alt=''/>
+      <Image src='/images/sign-in.png' width={20} height={20} alt='login icon'/>
     </Link>
   )}
   {showRegister && (

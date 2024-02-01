@@ -32,7 +32,7 @@ const Main = () => {
     <div>
       
       <div className='lg:max-w-3xl font-fam m-auto text-center mt-20 md:max-w-lg main-div'>
-        <h1 className='gradient-text lg:text-5xl font-extrabold p-3 md:text-4xl sm:text-3xl main-heading'>Shorten Your Loooong Links :) </h1>
+        <h1 className='gradient-text lg:text-5xl font-extrabold p-3 md:text-4xl sm:text-3xl main-heading'>Shorten Your Loooong Links </h1>
         <p className='mbl-main-dis1 mt-5 max-w-lg m-auto text-md text-center main-p'>
           Linkly is an efficient and easy-to-use URL shortening service that streamlines your online experience.
         </p>
@@ -75,7 +75,7 @@ const Main = () => {
         <div className='mbl-main-dis1 max-w-lg align-middle m-auto mt-5'>
           <p className='mr-2'>
             You can create <span className='mr-1' style={{ color: '#eb568e', fontWeight: 'bolder' }}>05</span> 
-            more links. Register Now to enjoy Unlimited usage{' '}
+            more links. Register Now to enjoy Unlimited usage
             {/* <FontAwesomeIcon icon="fa-solid fa-circle-question" /> */}
           </p>
         </div>
