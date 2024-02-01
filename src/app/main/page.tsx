@@ -1,10 +1,10 @@
 "use client"
 
-import React from 'react'
-import { useState } from 'react';
+import React, { useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Image from 'next/image';
 
-const page = () => {
+const Main = () => {
 
     const [autoPaste, setAutoPaste] = useState(false);
     const [inputValue, setInputValue] = useState('');
@@ -38,7 +38,8 @@ const page = () => {
         </p>
         <div className="relative max-w-lg m-auto mb-4 mt-5">
           <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <img style={{ backgroundColor: '#0b101b' }} src='./images/link.png' alt="link icon" />
+            <Image style={{ backgroundColor: '#0b101b' }} src='/images/link.png' width={30}
+      height={30} alt="link icon" />
           </div>
           <input
             style={{ backgroundColor: '#0b101b', borderRadius:'45px'}}
@@ -108,4 +109,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Main

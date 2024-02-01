@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Link from 'next/link'
+import Image from 'next/image';
 
 interface NavbarProps {
   showSignIn: boolean;
@@ -20,7 +21,7 @@ const Navbar: React.FC<NavbarProps> = ({ showSignIn, showRegister }) => {
     <>
     <div className='flex justify-between text-white max-w-7xl m-auto p-5 nav-top-div items-center '>
 
-<Link href='/'> <img className='h-12 logo-head' src='./images/linkly.png' alt=''/> </Link>
+<Link href='/'> <Image className='h-12 logo-head' src='/images/linkly.png' height={40} width={160} alt='logo'/> </Link>
 <div onClick={handleMenuToggle} className='normal-menu block lg:hidden'>
   {/* <FontAwesomeIcon className='h-7' icon="fa-solid fa-bars" /> */}
 </div>

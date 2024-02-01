@@ -26,7 +26,7 @@ interface Errors {
 }
  
   
-  const page: React.FC<pageProps> = ({ darkMode, handletoggle }) => {
+  const Register: React.FC<pageProps> = ({ darkMode, handletoggle }) => {
     const [recaptchaValue, setRecaptchaValue] = useState<string | null>(null);
     const [showEmailForm, setShowEmailForm] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
@@ -232,4 +232,4 @@ interface Errors {
   )
 }
 
-export default page
+export default Register

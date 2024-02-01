@@ -11,7 +11,7 @@ interface pageProps {
 }
 
 
-const page: React.FC<pageProps> = ({ darkMode, handletoggle }) => {
+const Login: React.FC<pageProps> = ({ darkMode, handletoggle }) => {
 
   const [showEmailForm, setShowEmailForm] = useState(false);
   const [formData, setFormData] = useState({
@@ -129,4 +129,4 @@ const page: React.FC<pageProps> = ({ darkMode, handletoggle }) => {
   )
 }
 
-export default page
+export default Login;

@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from 'next/link'
+import Image from 'next/image';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const Footer = () => {
@@ -7,7 +8,7 @@ const Footer = () => {
     <>
     <footer style={{backgroundColor:'#0b101b'}} className='max-w-full m-auto text-center text-white mt-24 pt-10 pb-10'>
     <div className=''>
-      <img className='max-w-full m-auto' src='./images/Linkly.png' alt=''/>
+      <Image className='max-w-full m-auto' src='/images/Linkly.png' height={50} width={200} alt='logo'/>
       <div className='flex gap-7 justify-center mt-6 items-center'>
         {/* <a href='https://www.youtube.com/' ><FontAwesomeIcon icon="fa-brands fa-facebook" /></a>
         <a href='https://www.youtube.com/' ><FontAwesomeIcon icon="fa-brands fa-instagram" /></a>
