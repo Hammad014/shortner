@@ -28,9 +28,9 @@ const Navbar: React.FC<NavbarProps> = ({ showSignIn, showRegister }) => {
 
 {isMenuOpen && showSignIn && (
   <div className='absolute top-12 right-5'>
-    <Link href='/login' className='block bg-blue-700 font-semibold items-center p-3 rounded-lg cursor-pointer'>
+    {/* <Link href='/login' className='block bg-blue-700 font-semibold items-center p-3 rounded-lg cursor-pointer'>
       Login
-    </Link>
+    </Link> */}
     {showRegister && (
       <Link href='/register' className='block p-3 bg-red-500 rounded-lg register-btn-mbl font-semibold'>
         Register Now
@@ -40,12 +40,12 @@ const Navbar: React.FC<NavbarProps> = ({ showSignIn, showRegister }) => {
 )}
 
 <div className='mbl-menu flex menu-items gap-10'>
-  {showSignIn && (
+  {/* {showSignIn && (
     <Link href='/login' style={{border:'2px solid white',backgroundColor:'#181e29',borderRadius:'30px'}} className='flex font-semibold items-center p-4 rounded-3xl cursor-pointer'>
       <p className='rounded-2xl pr-1'>Login </p>
       <Image src='/images/sign-in.png' width={20} height={20} alt='login icon'/>
     </Link>
-  )}
+  )} */}
   {showRegister && (
     <Link href='/register' style={{backgroundColor:'#144ee3',borderRadius:'30px'}} className='p-4 register-btn-mbl font-semibold border-gray-700'>
       Register Now

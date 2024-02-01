@@ -220,7 +220,7 @@ const Register: React.FC<pageProps> = ({ darkMode }) => {
                Sign up with Google
             </button>
             <p className='text-lg text-center mt-6'>
-              Already have an account: <Link href='/login' ><span style={{ color: '#144ee3', textDecoration: 'underline' }} className='ml-2'>Sign in</span></Link>
+              {/* Already have an account: <Link href='/login' ><span style={{ color: '#144ee3', textDecoration: 'underline' }} className='ml-2'>Sign in</span></Link> */}
             </p>
           </div>
 
