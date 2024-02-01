@@ -6,12 +6,12 @@ import Link from 'next/link'
 
 
 interface LoginProps {
-  darkMode: boolean;
-  handletoggle: boolean;
+  darkMode: string;
+  handletoggle: string;
 }
 
 
-export const Login: React.FC<LoginProps> = ({ darkMode, handletoggle }) => {
+const Login: React.FC<LoginProps> = ({ darkMode, handletoggle }) => {
 
   const [showEmailForm, setShowEmailForm] = useState(false);
   const [formData, setFormData] = useState({
@@ -129,3 +129,4 @@ export const Login: React.FC<LoginProps> = ({ darkMode, handletoggle }) => {
   )
 }
 
+export default Login;

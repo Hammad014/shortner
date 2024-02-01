@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Link from 'next/link'
 
 
-interface RegisterProps {
+interface pageProps {
   darkMode: boolean;
   handletoggle: boolean;
 }
@@ -26,7 +26,7 @@ interface Errors {
 }
  
   
-export const Register: React.FC<RegisterProps> = ({ darkMode, handletoggle }) => {
+const Register: React.FC<pageProps> = ({ darkMode, handletoggle }) => {
     const [recaptchaValue, setRecaptchaValue] = useState<string | null>(null);
     const [showEmailForm, setShowEmailForm] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
@@ -230,5 +230,7 @@ export const Register: React.FC<RegisterProps> = ({ darkMode, handletoggle }) =>
       {/* <Footer /> */}
     </>
   )
+  
 }
 
+export default Register;
