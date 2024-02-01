@@ -5,13 +5,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Link from 'next/link'
 
 
-interface pageProps {
+interface LoginProps {
   darkMode: boolean;
   handletoggle: boolean;
 }
 
 
-const Login: React.FC<pageProps> = ({ darkMode, handletoggle }) => {
+export const Login: React.FC<LoginProps> = ({ darkMode, handletoggle }) => {
 
   const [showEmailForm, setShowEmailForm] = useState(false);
   const [formData, setFormData] = useState({
@@ -129,4 +129,3 @@ const Login: React.FC<pageProps> = ({ darkMode, handletoggle }) => {
   )
 }
 
-export default Login;
