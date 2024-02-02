@@ -6,11 +6,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Footer from '../components/Footer';
 import  Navbar from '../components/Navbar';
 
-interface Login{
+export interface loginProps{
     darkMode:boolean;
 }
 
-const Login: React.FC<Login> = ({ darkMode }) => {
+const Login: React.FC<loginProps> = ({ darkMode }) => {
   const [showEmailForm, setShowEmailForm] = useState(false);
   const [formData, setFormData] = useState({
     email: '',
