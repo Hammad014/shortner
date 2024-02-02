@@ -4,12 +4,12 @@ import React , { useState} from 'react';
 import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-interface NavbarProps {
+interface Navbar {
     showSignIn: boolean;
     showRegister: boolean;
   }
   
-  const Navbar: React.FC<NavbarProps> = ({ showSignIn, showRegister }) => {
+  const Navbar: React.FC<Navbar> = ({ showSignIn, showRegister }) => {
     const [isMenuOpen, setMenuOpen] = useState(false);
   
     const handleMenuToggle = () => {
