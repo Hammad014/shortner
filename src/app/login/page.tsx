@@ -5,10 +5,8 @@ import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Footer from '../components/Footer';
 import  Navbar from '../components/Navbar';
-import loginProps from '../components/Types';
 
-
-const Login: React.FC<loginProps> = ({ darkMode }) => {
+const Login = () => {
   const [showEmailForm, setShowEmailForm] = useState(false);
   const [formData, setFormData] = useState({
     email: '',
@@ -48,7 +46,7 @@ const Login: React.FC<loginProps> = ({ darkMode }) => {
 
           <div className="mb-4">
             <button
-              style={{ borderRadius: '50px', border: `1px solid ${darkMode ? 'white' : 'black'}` }}
+            //   style={{ borderRadius: '50px', border: `1px solid ${darkMode ? 'white' : 'black'}` }}
               onClick={handleEmailButtonClick}
               className="sign-in-w text-lg mt-3 w-96 font-semibold p-3 hover:bg-red-600 focus:outline-none"
             >
@@ -65,7 +63,7 @@ const Login: React.FC<loginProps> = ({ darkMode }) => {
                     name="email"
                     value={formData.email}
                     onChange={handleInputChange}
-                    style={{ borderRadius: '50px', border: `1px solid ${darkMode ? 'white' : 'black'}` }}
+                    // style={{ borderRadius: '50px', border: `1px solid ${darkMode ? 'white' : 'black'}` }}
                     placeholder="Enter your email.."
                     className="sign-in-w bg-transparent mt-1 p-3 w-96 border pl-12 focus:outline-none focus:border-blue-500"
                     required
@@ -82,7 +80,7 @@ const Login: React.FC<loginProps> = ({ darkMode }) => {
                     name="password"
                     value={formData.password}
                     onChange={handleInputChange}
-                    style={{ borderRadius: '50px', border: `1px solid ${darkMode ? 'white' : 'black'}` }}
+                    // style={{ borderRadius: '50px', border: `1px solid ${darkMode ? 'white' : 'black'}` }}
                     placeholder="Enter password.."
                     className="bg-transparent sign-in-w mt-1 p-3 w-96 border pl-12 focus:outline-none focus:border-blue-500"
                     required
@@ -108,7 +106,7 @@ const Login: React.FC<loginProps> = ({ darkMode }) => {
 
             <p className='text-center text-lg mt-3'>OR</p>
             <button
-              style={{ borderRadius: '50px', border: `1px solid ${darkMode ? 'white' : 'black'}` }}
+            //   style={{ borderRadius: '50px', border: `1px solid ${darkMode ? 'white' : 'black'}` }}
               onClick={() => setShowEmailForm(false)}
               className="w-96 sign-in-w text-lg mt-3 block font-semibold p-3 mr-4 hover:bg-red-600 focus:outline-none"
             >
