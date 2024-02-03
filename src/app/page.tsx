@@ -9,7 +9,7 @@ import Navbar from "./components/Navbar";
 
 export default function Home() {
 
-  const [darkMode, setDarkMode] = useState(true);
+  const [darkMode, setDarkMode] = useState<boolean>(true);
 
   useEffect(() => {
     document.body.style.backgroundColor = darkMode ? '#0b101b' : '#c8cdd5';
