@@ -2,14 +2,16 @@
 
 import Image from "next/image";
 import { useState , useEffect } from "react";
-import Footer from "./components/Footer";
-import Main from './main/page';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Navbar from "./components/Navbar";
 
-export default function Home() {
+interface LayoutProps {
+    children: React.ReactNode;
+  }
+  
+  const Layout: React.FC<LayoutProps> = ({ children }) => {
+    const [darkMode, setDarkMode] = useState<boolean>(true);
+  
 
-  const [darkMode, setDarkMode] = useState<boolean>(true);
 
   useEffect(() => {
     document.body.style.backgroundColor = darkMode ? '#0b101b' : '#c8cdd5';
@@ -23,7 +25,8 @@ export default function Home() {
 
   return (
     <>
-    <div style={{ position: 'relative', maxWidth: '100%' }}>
+    
+    <div className="z-0 absolute max-w-full" >
         {darkMode && (
           <>
             <Image className='mbl-cube1 cube1 absolute z-0 top-0 right-10' src='/images/Rectangle 4 (1).png' height={250} width={350} alt='cube1'/>
@@ -47,11 +50,8 @@ export default function Home() {
         
         </div>
       </div>
-
-     <Navbar showSignIn={true} showRegister={true}/>
-     <Main/>
-    <Footer/>
-
+    
     </>
   );
 }
+export default Layout;

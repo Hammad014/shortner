@@ -6,6 +6,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Footer from '../components/Footer';
 import  Navbar from '../components/Navbar';
 
+
+
 const Login = () => {
   const [showEmailForm, setShowEmailForm] = useState(false);
   const [formData, setFormData] = useState({
@@ -39,8 +41,9 @@ const Login = () => {
 
   return (
     <>
+    
       <Navbar showSignIn={false} showRegister={true} />
-      <div className="flex z-10 items-center justify-center">
+     <div className="flex z-20 items-center justify-center">
         <div className="mt-12 font-fam p-8 rounded-xl shadow-2xl">
           <h2 className="text-3xl text-center font-bold mb-7">Login</h2>
 
@@ -117,8 +120,9 @@ const Login = () => {
             </p>
           </div>
         </div>
-      </div>
+      </div> 
       <Footer />
+     
     </>
   );
 };
