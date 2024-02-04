@@ -2,13 +2,16 @@
 
 import Image from "next/image";
 import { useState , useEffect } from "react";
+import { useRouter } from "next/router";
 import Footer from "./components/Footer";
 import Main from './main/page';
+import Login from "./login/page";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Navbar from "./components/Navbar";
+// import Layout from "./components/Layout";
+
 
 export default function Home() {
-
   const [darkMode, setDarkMode] = useState<boolean>(true);
 
   useEffect(() => {
@@ -17,23 +20,24 @@ export default function Home() {
     // document.body.style.border = darkMode ? '1px solid white' : '1px solid black';
   }, [darkMode]);
 
+
   const handletoggle = () => {
     setDarkMode((prevMode) => !prevMode);
   };
-
   return (
     <>
-    <div style={{ position: 'relative', maxWidth: '100%' }}>
+        <div className="relative max-w-full" >
         {darkMode && (
           <>
             <Image className='mbl-cube1 cube1 absolute z-0 top-0 right-10' src='/images/Rectangle 4 (1).png' height={250} width={350} alt='cube1'/>
             <Image className='mbl-cube2 cube2 md:cube2 absolute top-80 right-60 z-0' src='/images/Rectangle 4.png' height={250} width={350} alt='cube2'/>
             <Image className='mbl-cube3 cube3 absolute z-0 top-28 left-10' src='/images/Rectangle 5 (1).png' height={100} width={350} alt='cube3'/>
-            <Image className='mbl-cube4 cube4 absolute z-0 ' src='/images/Rectangle 5 (2).png'  height={100} width={350} alt='cube4'/>
+            {/* <Image className='mbl-cube4 cube4 absolute z-0 ' src='/images/Rectangle 5 (2).png'  height={100} width={350} alt='cube4'/> */}
           </>
         )}
 
-        <div className='z-50 relative'>
+      </div>
+            <div className='z-50 relative'>
           <div className='absolute theme-mbl transform rotate-90 top-80 right-5 '>
         <div className={`switchtheme ${darkMode ? 'on' : ''}`} onClick={handletoggle}>
           <div className='flex justify-between'> 
@@ -46,12 +50,10 @@ export default function Home() {
           </div>
         
         </div>
-      </div>
+    
 
-     <Navbar showSignIn={true} showRegister={true}/>
-     <Main/>
-    <Footer/>
-
+  <Main/>
+  
     </>
   );
 }

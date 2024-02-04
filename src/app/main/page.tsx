@@ -3,7 +3,12 @@
 import React, { useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Image from 'next/image';
+import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
 import { FaQuestion } from "react-icons/fa";
+import {Poppins} from 'next/font/google';
+
+const myFont = Poppins({ weight: '400', subsets:['latin'] }) ;
 
 const Main = () => {
 
@@ -28,13 +33,15 @@ const Main = () => {
       setAutoPaste(newAutoPasteState);
     };
 
+    
+
   return (
     <>
-    <div>
-      
+    <div className={myFont.className}>
+    <Navbar showSignIn={true} showRegister={true}/>
       <div className='lg:max-w-4xl font-fam m-auto text-center mt-20 md:max-w-lg main-div'>
         <h1 className='gradient-text lg:text-5xl font-fam font-extrabold p-3 md:text-4xl sm:text-3xl main-heading'>Shorten Your Loooong Links :(</h1>
-        <p className='mbl-main-dis1 font-fam mt-5 max-w-lg m-auto text-md text-center main-p'>
+        <p className='mbl-main-dis1 font-fam mt-5 max-w-lg m-auto text-lg text-center main-p '>
           Linkly is an efficient and easy-to-use URL shortening service that streamlines your online experience.
         </p>
         <div className="relative max-w-lg m-auto mb-4 mt-5">
@@ -70,11 +77,11 @@ const Main = () => {
           <div className={`switch ${autoPaste ? 'on' : ''}`} onClick={handleSwitchClick}>
             <div className='slider'></div>
           </div>
-          <h3>Auto Paste from Clipboard</h3>
+          <h3 className='font-semibold font-fam'>Auto Paste from Clipboard</h3>
         </div>
 
         <div className='inline mbl-main-dis1 max-w-lg align-middle m-auto'>
-          <p className='mr-2'>
+          <p className='mr-2 text-lg'>
             You can create <span className='mr-1' style={{ color: '#eb568e', fontWeight: 'bolder' }}>05</span> 
             more links. Register Now to enjoy Unlimited usage
             <FaQuestion className='inline mb-0.5 ml-1'/>
@@ -104,7 +111,7 @@ const Main = () => {
           </tbody>
         </table>
       </div>
-      {/* <Footer /> */}
+      <Footer />
     </div>
     </>
   )

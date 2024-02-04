@@ -1,14 +1,18 @@
 import React from 'react';
 import Image from 'next/image';
+import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
+import Layout from '../components/Layout';
 
 const page = () => {
   return (
     <>
+    <Layout>
     <div className='font-fam'>
-        {/* <Navbar showSignIn={true} showRegister={true} /> */}
+        <Navbar showSignIn={true} showRegister={true} />
         <div className='articles max-w-5xl mt-10 ml-10 p-6'>
           <h1 className='font-semibold text-justify text-3xl mb-4'>
-            Privacy Policy for <Image className='inline h-8' width={130} height={40} src='./images/Linkly.png' alt='Linkly Logo' /> :
+            Privacy Policy for <Image className='inline h-8' width={130} height={40} src='/images/Linkly.png' alt='Linkly Logo' /> :
           </h1>
 
           <section className='mb-6'>
@@ -105,6 +109,8 @@ const page = () => {
           </section>
         </div>
       </div>
+      </Layout>
+      <Footer/>
     </>
   )
 }
