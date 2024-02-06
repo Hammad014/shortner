@@ -36,38 +36,38 @@ const Main = () => {
     };
 
     const handleShortenClick = async () => {
-      try {
-        // Make a request to Bitly API to shorten the link
-        const response = await axios.post(
-          'https://api-ssl.bitly.com/v4/shorten',
-          {
-            "group_guid": "Ba1bc23dE4F",
-            "domain": "bit.ly",
-            "long_url": "https://dev.bitly.com/",
-          },
-          {
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer a89355e39fb86f1e7acaff3de441d4c0f448d75f`, // Replace with your Bitly access token
-            },
-          }
-        );
+      // try {
+      //   // Make a request to Bitly API to shorten the link
+      //   const response = await axios.post(
+      //     'https://api-ssl.bitly.com/v4/shorten',
+      //     {
+      //       "group_guid": "Ba1bc23dE4F",
+      //       "domain": "bit.ly",
+      //       "long_url": "https://dev.bitly.com/",
+      //     },
+      //     {
+      //       headers: {
+      //         'Content-Type': 'application/json',
+      //         'Authorization': `Bearer a89355e39fb86f1e7acaff3de441d4c0f448d75f`, // Replace with your Bitly access token
+      //       },
+      //     }
+      //   );
   
-        // Get the shortened link from the Bitly API response
-        const shortUrl = response.data.link;
+      //   // Get the shortened link from the Bitly API response
+      //   const shortUrl = response.data.link;
   
-        // Copy the shortened link to the clipboard
-        copy(shortUrl);
+      //   // Copy the shortened link to the clipboard
+      //   copy(shortUrl);
   
-        // Update the input field with the shortened link
-        setInputValue(shortUrl);
+      //   // Update the input field with the shortened link
+      //   setInputValue(shortUrl);
   
-        // Log the shortened link to the console (you can remove this in production)
-        console.log('Shortened link:', shortUrl);
-      } catch (error: any) {
-        console.error('Bitly API Error:', error.response?.data || error.message);
-        // Handle error
-      }
+      //   // Log the shortened link to the console (you can remove this in production)
+      //   console.log('Shortened link:', shortUrl);
+      // } catch (error: any) {
+      //   console.error('Bitly API Error:', error.response?.data || error.message);
+      //   // Handle error
+      // }
     };
 
     
@@ -82,7 +82,7 @@ const Main = () => {
           Linkly is an efficient and easy-to-use URL shortening service that streamlines your online experience.
         </p>
         <div className="relative max-w-lg m-auto mb-4 mt-5">
-          <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+          <div className="absolute inset-y-0 left-0 lg:pl-4 flex items-center pointer-events-none">
             <Image style={{ backgroundColor: '#0b101b' }} src='/images/link.png' width={30}
       height={30} alt="link icon" />
           </div>
@@ -101,7 +101,8 @@ const Main = () => {
   className="bg-blue-700 text-white sm:py-4 sm:px-9 align-middle link-btn border-t-0 hover:bg-blue-600 focus:outline-none"
   onClick={handleShortenClick}
 >
-  <span className='shorten-btn text-lg'>{autoPaste ? 'Copy' : 'Shorten'}</span> 
+  {/* <span className='shorten-btn text-lg'>{autoPaste ? 'Copy' : 'Shorten'}</span>  */}
+  <span className='shorten-btn text-lg'>Shorten</span> 
   <svg className='shorten-icon-btn h-7 inline pl-1 pb-0.5' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="#e1e4ea" d="M438.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L338.8 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l306.7 0L233.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"/></svg>
 </button>
           </div>

@@ -26,6 +26,7 @@ body{
     color: transparent;
     display: inline-block; /* Ensures the gradient is applied only to the text content */
   }
+
   
   .switch{
     position: relative;

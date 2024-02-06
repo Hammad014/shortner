@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FaHome } from "react-icons/fa";
+import { FaBarsStaggered } from "react-icons/fa6";
 
 interface Navbar {
     showSignIn: boolean;
@@ -31,12 +32,12 @@ interface Navbar {
  </Link>
  </div>
 
-<div onClick={handleMenuToggle} className='normal-menu block lg:hidden'>
-  {/* <FontAwesomeIcon className='h-7' icon="fa-solid fa-bars" /> */}
+<div onClick={handleMenuToggle} className='normal-menu cursor-pointer block lg:hidden'>
+<FaBarsStaggered className='text-xl'/>
 </div>
 
 {isMenuOpen && showSignIn && (
-  <div className='absolute top-12 right-5'>
+  <div className='absolute top-16 right-5'>
     <Link href='/login' className='block bg-blue-700 font-semibold items-center p-3 rounded-lg cursor-pointer'>
       Login
     </Link>
