@@ -24,7 +24,7 @@ interface Navbar {
     <div className='flex justify-between text-white max-w-7xl m-auto p-5 nav-top-div items-center'>
 <div className='flex justify-center items-center gap-10'>
 
-<Image className='h-12 logo-head' src='/images/linkly.png' height={45} width={150}  alt='logo'/>
+<img className='h-12 logo-head' src='/images/linkly.png' alt='logo'/>
  
  <Link href='/'>
 {showHome && <FaHome className='inline text-4xl mb-1'/>}
