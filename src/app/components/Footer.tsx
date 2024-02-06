@@ -9,7 +9,7 @@ const Footer = () => {
     <>
     <footer style={{backgroundColor:'#181e29'}} className='max-w-full m-auto text-center text-white mb-0 mt-24 pt-10 pb-10 m'>
     <div className=''>
-      <img className='max-w-full m-auto' src='/images/Linkly.png' alt='logo'/>
+      <Image className='max-w-full m-auto' src='/images/Linkly.png' height={40} width={150} alt='logo'/>
       <div className='flex gap-7 justify-center mt-6 items-center'>
       <a href="https://twitter.com/your_twitter_handle" target="_blank" rel="noopener noreferrer">
         <FaTwitter size={30} />
