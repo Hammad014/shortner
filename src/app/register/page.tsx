@@ -118,7 +118,7 @@ const Register  = () => {
   return (
     <>
     <Layout>
-  <Navbar showSignIn={true} showRegister={false} />
+  <Navbar showSignIn={true} showRegister={false} showHome={true} />
       <div className="flex z-10 items-center font-fam justify-center">
         <div className="mt-12 p-8 rounded-xl shadow-2xl">
           <h2 className="text-3xl font-fam text-center font-semibold mb-7">Sign up</h2>

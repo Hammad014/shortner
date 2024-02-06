@@ -7,6 +7,8 @@ import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { FaQuestion } from "react-icons/fa";
 import {Poppins} from 'next/font/google';
+import axios from 'axios';
+import copy from 'copy-to-clipboard';
 
 const myFont = Poppins({ weight: '400', subsets:['latin'] }) ;
 
@@ -33,12 +35,47 @@ const Main = () => {
       setAutoPaste(newAutoPasteState);
     };
 
+    const handleShortenClick = async () => {
+      try {
+        // Make a request to Bitly API to shorten the link
+        const response = await axios.post(
+          'https://api-ssl.bitly.com/v4/shorten',
+          {
+            "group_guid": "Ba1bc23dE4F",
+            "domain": "bit.ly",
+            "long_url": "https://dev.bitly.com/",
+          },
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer a89355e39fb86f1e7acaff3de441d4c0f448d75f`, // Replace with your Bitly access token
+            },
+          }
+        );
+  
+        // Get the shortened link from the Bitly API response
+        const shortUrl = response.data.link;
+  
+        // Copy the shortened link to the clipboard
+        copy(shortUrl);
+  
+        // Update the input field with the shortened link
+        setInputValue(shortUrl);
+  
+        // Log the shortened link to the console (you can remove this in production)
+        console.log('Shortened link:', shortUrl);
+      } catch (error: any) {
+        console.error('Bitly API Error:', error.response?.data || error.message);
+        // Handle error
+      }
+    };
+
     
 
   return (
     <>
     <div className={myFont.className}>
-    <Navbar showSignIn={true} showRegister={true}/>
+    <Navbar showSignIn={true} showRegister={true} showHome={false}/>
       <div className='lg:max-w-4xl font-fam m-auto text-center mt-20 md:max-w-lg main-div'>
         <h1 className='gradient-text lg:text-5xl font-fam font-extrabold p-3 md:text-4xl sm:text-3xl main-heading'>Shorten Your Loooong Links :(</h1>
         <p className='mbl-main-dis1 font-fam mt-5 max-w-lg m-auto text-lg text-center main-p '>
@@ -59,17 +96,14 @@ const Main = () => {
           />
           
           <div className="absolute inset-y-0 right-0 flex items-center">
-            <button
-            style={{  borderRadius:'45px', marginRight:'2px'}}
-              className="bg-blue-700 text-white sm:py-4 sm:px-9 align-middle link-btn border-t-0 hover:bg-blue-600 focus:outline-none"
-              onClick={() => {
-                // Handle the logic for shortening the link here
-                console.log('Shortening the link:', inputValue);
-              }}
-            >
-              <span className='shorten-btn text-lg'>Shorten</span> 
-              <svg className='shorten-icon-btn h-7 inline pl-1 pb-0.5' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="#e1e4ea" d="M438.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L338.8 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l306.7 0L233.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"/></svg>
-            </button>
+          <button
+  style={{ borderRadius: '45px', marginRight: '2px' }}
+  className="bg-blue-700 text-white sm:py-4 sm:px-9 align-middle link-btn border-t-0 hover:bg-blue-600 focus:outline-none"
+  onClick={handleShortenClick}
+>
+  <span className='shorten-btn text-lg'>{autoPaste ? 'Copy' : 'Shorten'}</span> 
+  <svg className='shorten-icon-btn h-7 inline pl-1 pb-0.5' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="#e1e4ea" d="M438.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L338.8 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l306.7 0L233.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"/></svg>
+</button>
           </div>
         </div>
 

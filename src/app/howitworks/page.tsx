@@ -8,7 +8,7 @@ const page = () => {
     <>
 <Layout>
     <div>
-      <Navbar showSignIn={true} showRegister={true} />
+      <Navbar showSignIn={true} showRegister={true} showHome={true}/>
       <div className="articles max-w-5xl mt-10 ml-10 text-justify p-6">
         <h1 className="text-3xl font-semibold mb-6">How It Works: A Guide to </h1>
         

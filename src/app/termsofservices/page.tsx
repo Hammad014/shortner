@@ -8,7 +8,7 @@ const page = () => {
     <>
     <Layout>
     <div>
-      <Navbar showSignIn={true} showRegister={true} />
+      <Navbar showSignIn={true} showRegister={true} showHome={true}/>
       <div className="articles max-w-5xl font-fam text-justify mt-10 ml-10 p-6">
         <h1 className="text-3xl font-semibold mb-6">Terms of Service for [Your Link Shortener Website]</h1>
         <p>Effective Date: [Date]</p>

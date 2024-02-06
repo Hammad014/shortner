@@ -47,7 +47,7 @@ const Login:React.FC = () => {
     <>
    <Layout>
       <div className='bg-login z-50'>
-      <Navbar showSignIn={false} showRegister={true} />
+      <Navbar showSignIn={false} showRegister={true} showHome={true} />
      <div className="flex z-20 items-center justify-center">
         <div className="mt-12 font-fam p-8 rounded-xl shadow-2xl">
          

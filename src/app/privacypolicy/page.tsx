@@ -9,7 +9,7 @@ const page = () => {
     <>
     <Layout>
     <div className='font-fam'>
-        <Navbar showSignIn={true} showRegister={true} />
+        <Navbar showSignIn={true} showRegister={true} showHome={true}/>
         <div className='articles max-w-5xl mt-10 ml-10 p-6'>
           <h1 className='font-semibold text-justify text-3xl mb-4'>
             Privacy Policy for <Image className='inline h-8' width={130} height={40} src='/images/Linkly.png' alt='Linkly Logo' /> :

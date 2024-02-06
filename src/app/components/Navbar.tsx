@@ -4,13 +4,15 @@ import React , { useState} from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { FaHome } from "react-icons/fa";
 
 interface Navbar {
     showSignIn: boolean;
     showRegister: boolean;
+    showHome: boolean;
   }
   
-  const Navbar: React.FC<Navbar> = ({ showSignIn, showRegister }) => {
+  const Navbar: React.FC<Navbar> = ({ showSignIn, showRegister, showHome }) => {
     const [isMenuOpen, setMenuOpen] = useState(false);
   
     const handleMenuToggle = () => {
@@ -19,9 +21,16 @@ interface Navbar {
 
   return (
     <>
-    <div className='flex justify-between text-white max-w-7xl m-auto p-5 nav-top-div items-center '>
+    <div className='flex justify-between text-white max-w-7xl m-auto p-5 nav-top-div items-center'>
+<div className='flex justify-center items-center gap-10'>
 
-<Link href='/'> <Image className='h-12 logo-head' src='/images/linkly.png' height={40} width={150}  alt='logo'/> </Link>
+<Image className='h-12 logo-head' src='/images/linkly.png' height={45} width={150}  alt='logo'/>
+ 
+ <Link href='/'>
+{showHome && <FaHome className='inline text-4xl mb-1'/>}
+ </Link>
+ </div>
+
 <div onClick={handleMenuToggle} className='normal-menu block lg:hidden'>
   {/* <FontAwesomeIcon className='h-7' icon="fa-solid fa-bars" /> */}
 </div>
@@ -39,7 +48,7 @@ interface Navbar {
   </div>
 )}
 
-<div className='mbl-menu flex menu-items gap-10'>
+<div className='mbl-menu flex menu-items gap-10 items-center'>
   {showSignIn && (
     <Link href='/login' style={{border:'2px solid white',backgroundColor:'#181e29',borderRadius:'30px'}} className='flex font-semibold items-center p-4 rounded-3xl cursor-pointer'>
       <p className='rounded-2xl pr-1'>Login </p>
