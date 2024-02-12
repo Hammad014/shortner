@@ -13,12 +13,15 @@ import Navbar from "./components/Navbar";
 
 export default function Home() {
   const [darkMode, setDarkMode] = useState<boolean>(true);
+  
 
   useEffect(() => {
     document.body.style.backgroundColor = darkMode ? '#0b101b' : '#c8cdd5';
     document.body.style.color = darkMode ? 'white' : 'black';
     // document.body.style.border = darkMode ? '1px solid white' : '1px solid black';
   }, [darkMode]);
+
+
 
 
   const handletoggle = () => {
@@ -37,9 +40,9 @@ export default function Home() {
         )}
         {!darkMode && (
           <>
-            <div className='w-64 h-36 mbl-cube1 bg-gradient-to-br from-blue-400 to-rose-300 cube1 rounded-b-full absolute z-0 top-0 left-0' ></div>
+            <div className='w-64 h-36 mbl-cube1 white-thm-1 bg-gradient-to-br from-blue-400 to-rose-300 cube1 rounded-b-full absolute z-0 top-0 left-0' ></div>
             <div className='mbl-cube2 cube2 md:cube2 absolute top-80 right-60 z-0'></div>
-            <div className='w-52 h-96 mbl-cube3 bg-gradient-to-br from-green-500 to-rose-300 cube3 rounded-s-full absolute z-0 top-44 right-0' ></div>
+            <div className='w-52 h-96 mbl-cube3 white-thm-3 bg-gradient-to-br from-green-500 to-rose-300 cube3 rounded-s-full absolute z-0 top-44 right-0' ></div>
             <div className='mbl-cube4 cube4 absolute z-0 '></div>
           </>
         )}

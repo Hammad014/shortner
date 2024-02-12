@@ -7,8 +7,9 @@ import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { FaQuestion } from "react-icons/fa";
 import {Poppins} from 'next/font/google';
-import axios from 'axios';
 import copy from 'copy-to-clipboard';
+import {nanoid} from 'nanoid';
+import AnimationComponent from '../components/Animation';
 
 const myFont = Poppins({ weight: '400', subsets:['latin'] }) ;
 
@@ -16,6 +17,8 @@ const Main = () => {
 
     const [autoPaste, setAutoPaste] = useState(false);
     const [inputValue, setInputValue] = useState('');
+    const [shortenedUrl, setShortenedUrl] = useState('');
+    const [isCopied, setIsCopied] = useState(false);
   
     const handleSwitchClick = async () => {
       let newAutoPasteState = autoPaste; // Store the current state
@@ -36,44 +39,34 @@ const Main = () => {
     };
 
     const handleShortenClick = async () => {
-      // try {
-      //   // Make a request to Bitly API to shorten the link
-      //   const response = await axios.post(
-      //     'https://api-ssl.bitly.com/v4/shorten',
-      //     {
-      //       "group_guid": "Ba1bc23dE4F",
-      //       "domain": "bit.ly",
-      //       "long_url": "https://dev.bitly.com/",
-      //     },
-      //     {
-      //       headers: {
-      //         'Content-Type': 'application/json',
-      //         'Authorization': `Bearer a89355e39fb86f1e7acaff3de441d4c0f448d75f`, // Replace with your Bitly access token
-      //       },
-      //     }
-      //   );
+      const longUrl = inputValue;
   
-      //   // Get the shortened link from the Bitly API response
-      //   const shortUrl = response.data.link;
+      if (longUrl) {
+        const newShortUrl = nanoid();
+        setShortenedUrl(newShortUrl);
+        copy(newShortUrl);
+        setIsCopied(true); // Indicate successful copy
   
-      //   // Copy the shortened link to the clipboard
-      //   copy(shortUrl);
-  
-      //   // Update the input field with the shortened link
-      //   setInputValue(shortUrl);
-  
-      //   // Log the shortened link to the console (you can remove this in production)
-      //   console.log('Shortened link:', shortUrl);
-      // } catch (error: any) {
-      //   console.error('Bitly API Error:', error.response?.data || error.message);
-      //   // Handle error
-      // }
+        // Optionally display a success message
+        console.log('URL shortened and copied to clipboard!');
+      } else {
+        // Handle the case where the input field is empty
+        console.warn('Please enter a URL to shorten.');
+      }
     };
-
+   
+    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+      setInputValue(event.target.value);
+      setShortenedUrl(''); // Clear existing shortened URL on input change
+      setIsCopied(false); // Reset copy status on input change
+    };
     
+  const buttonText = shortenedUrl ? (isCopied ? 'Copied!' : 'Copy') : 'Shorten';
+  const buttonClickHandler = shortenedUrl ? () => setIsCopied(copy(shortenedUrl)) : handleShortenClick;
 
   return (
     <>
+     <AnimationComponent />
     <div className={myFont.className}>
     <Navbar showSignIn={true} showRegister={true} showHome={false}/>
       <div className='lg:max-w-4xl font-fam m-auto text-center mt-20 md:max-w-lg main-div'>
@@ -82,7 +75,7 @@ const Main = () => {
           Linkly is an efficient and easy-to-use URL shortening service that streamlines your online experience.
         </p>
         <div className="relative max-w-lg m-auto mb-4 mt-5">
-          <div className="absolute inset-y-0 left-0 lg:pl-4 flex items-center pointer-events-none">
+          <div className="absolute inset-y-0 left-2 lg:left-4 flex items-center pointer-events-none">
             <Image style={{ backgroundColor: '#0b101b' }} src='/images/link.png' width={30}
       height={30} alt="link icon" />
           </div>
@@ -90,21 +83,26 @@ const Main = () => {
             style={{ backgroundColor: '#0b101b', borderRadius:'45px'}}
             type="text"
             placeholder="Enter your link"
-            value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
-            className="pl-14 pt-5 text-white pb-5 pr-8 w-full py-2 link-input border-2 focus:outline-none focus:border-blue-500"
+            value={shortenedUrl || inputValue}
+            onChange={handleInputChange}
+            className="pl-14 pt-5 text-white pb-5 pr-8 sm:pr-4 w-full py-2 link-input border-2 focus:outline-none focus:border-blue-500"
           />
           
           <div className="absolute inset-y-0 right-0 flex items-center">
           <button
-  style={{ borderRadius: '45px', marginRight: '2px' }}
-  className="bg-blue-700 text-white sm:py-4 sm:px-9 align-middle link-btn border-t-0 hover:bg-blue-600 focus:outline-none"
-  onClick={handleShortenClick}
->
-  {/* <span className='shorten-btn text-lg'>{autoPaste ? 'Copy' : 'Shorten'}</span>  */}
-  <span className='shorten-btn text-lg'>Shorten</span> 
-  <svg className='shorten-icon-btn h-7 inline pl-1 pb-0.5' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="#e1e4ea" d="M438.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L338.8 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l306.7 0L233.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"/></svg>
-</button>
+          style={{ borderRadius: '45px', marginRight: '2px' }}
+          className="bg-blue-700 text-white sm:py-4 sm:px-9 align-middle link-btn border-t-0 hover:bg-blue-600 focus:outline-none"
+          onClick={buttonClickHandler}
+          >
+          {/* <span className='shorten-btn text-lg'>{autoPaste ? 'Copy' : 'Shorten'}</span>  */}
+          <span className='shorten-btn text-lg'>{buttonText}</span> 
+          <svg className='shorten-icon-btn h-7 inline pl-1 pb-0.5' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="#e1e4ea" d="M438.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L338.8 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l306.7 0L233.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"/></svg>
+        </button>
+        {/* {shortenedUrl && (
+        <div className="">
+          {shortenedUrl}
+        </div>
+      )} */}
           </div>
         </div>
 
@@ -124,7 +122,7 @@ const Main = () => {
         </div>
       </div>
 
-      <div className='text-left mt-14'>
+      <div className='text-left max-w-7xl m-auto mt-14'>
         <table className="lg:max-w-full table-long m-auto border-collapse md:max-w-4xl">
           <thead>
             <tr className='flex mbl-gap lg:gap-36 md:gap-24 sm:gap-12'>
@@ -136,13 +134,22 @@ const Main = () => {
             </tr>
           </thead>
           <tbody>
-            <tr className="even:bg-gray-100 odd:bg-gray-200">
+            {/* <tr className="even:bg-gray-100 odd:bg-gray-200">
               <td></td>
               <td></td>
               <td className='mbl-short'></td>
               <td className='mbl-short'></td>
               <td className='mbl-short'></td>
-            </tr>
+            </tr> */}
+            {shortenedUrl && ( // Display the shortened URL if it exists
+              <tr className="">
+                <td>{shortenedUrl}</td>
+                <td>{inputValue}</td>
+                <td className='mbl-short'></td>
+                <td className='mbl-short'></td>
+                <td className='mbl-short'></td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>

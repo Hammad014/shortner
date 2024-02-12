@@ -216,7 +216,7 @@ const Register  = () => {
 
                 <ReCAPTCHA
                   className='mbl-captcha mt-7 mb-7 ml-10'
-                  sitekey="6LeUrm0pAAAAACXlZmXRW-N6InCA0jkShTHva9m6"
+                  sitekey="6LczPV8pAAAAANXdZmrlZ-lXfdPWp7t0B8cIfXrh"
                   onChange={handleRecaptchaChange}
                   
                 />

@@ -1,6 +1,6 @@
 "use client"
 
-import React , { useState} from 'react';
+import React , { useState, useEffect} from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -19,6 +19,24 @@ interface Navbar {
     const handleMenuToggle = () => {
       setMenuOpen(!isMenuOpen);
     };
+    useEffect(() => {
+      const closeMenuOnOutsideClick = (event: MouseEvent) => {
+          const target = event.target as HTMLElement;
+
+          // Close the menu if the click is outside the menu
+          if (isMenuOpen && !target.closest('.nav-top-div')) {
+              setMenuOpen(false);
+          }
+      };
+
+      // Attach the event listener to the document body
+      document.body.addEventListener('click', closeMenuOnOutsideClick);
+
+      // Clean up the event listener on component unmount
+      return () => {
+          document.body.removeEventListener('click', closeMenuOnOutsideClick);
+      };
+  }, [isMenuOpen]);
 
   return (
     <>
@@ -36,13 +54,13 @@ interface Navbar {
 <FaBarsStaggered className='text-xl'/>
 </div>
 
-{isMenuOpen && showSignIn && (
+{isMenuOpen && (
   <div className='absolute top-16 right-5'>
-    <Link href='/login' className='block bg-blue-700 font-semibold items-center p-3 rounded-lg cursor-pointer'>
+  {showSignIn &&  <Link href='/login' className='block w-32 bg-blue-500 hover:bg-blue-700 focus:outline font-semibold items-center p-3 cursor-pointer'>
       Login
-    </Link>
+    </Link>}
     {showRegister && (
-      <Link href='/register' className='block p-3 bg-red-500 rounded-lg register-btn-mbl font-semibold'>
+      <Link href='/register' className='block w-32 p-3 bg-blue-500 hover:bg-blue-700 register-btn-mbl font-semibold'>
         Register Now
       </Link>
     )}

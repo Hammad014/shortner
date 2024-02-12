@@ -1,14 +1,18 @@
+"use client"
+
 import React from 'react';
 import Image from 'next/image';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import Layout from '../components/Layout';
 
+
 const page = () => {
   return (
     <>
     <Layout>
-    <div className='font-fam'>
+   
+    <div className='font-fam relative'>
         <Navbar showSignIn={true} showRegister={true} showHome={true}/>
         <div className='articles max-w-5xl mt-10 ml-10 p-6'>
           <h1 className='font-semibold text-justify text-3xl mb-4'>
