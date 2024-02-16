@@ -182,7 +182,7 @@ const Main = () => {
             </tr>
           </thead>
           <tbody>
-            {links.map((link) => (
+            {links.slice().reverse().map((link) => (
               <tr key={link._id} className="flex flex-nowrap gap-5 p-5 bg-transparent">
              <div className='flex relative w-48 justify-between cursor-pointer' onClick={() => handleLinkClick(link.originalUrl)}>
                   <td>
