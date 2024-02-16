@@ -16,7 +16,7 @@ interface Particle {
 
 const Animation: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [particleCount, setParticleCount] = useState(40);
+  const [particleCount, setParticleCount] = useState(50);
   const [width, setWidth] = useState(400);
   const [height, setHeight] = useState(400);
 

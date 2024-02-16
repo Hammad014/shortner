@@ -9,6 +9,7 @@ import { FaQuestion } from "react-icons/fa";
 import {Poppins} from 'next/font/google';
 import copy from 'copy-to-clipboard';
 import { FaRegCopy } from "react-icons/fa";
+import { LuMousePointerClick } from "react-icons/lu";
 import AnimationComponent from '../components/Animation';
 import axios from 'axios';
 
@@ -88,30 +89,35 @@ const Main = () => {
       }, 1000);
     };
 
-    const handleLinkClick = (originalUrl: string) => {
-      window.open(originalUrl, '_blank');
-      // Alternatively, if you want to open the link in a new tab:
-      // window.open(originalUrl, '_blank');
-    };
-
 
 
     useEffect(() => {
-      const fetchLinks = async () => {
-        try {
-          const response = await axios.get('http://localhost:5000/api/link/all');
-          setLinks(response.data.map((link: any) => ({
-            ...link,
-            date: new Date(link.date).toLocaleDateString()
-          })));
-        } catch (error) {
-          console.error('Error fetching links:', error);
-        }
-      };
-    
-      fetchLinks();
-    }, []);
+  const fetchLinks = async () => {
+    try {
+      const response = await axios.get('http://localhost:5000/api/link/all');
+      setLinks(response.data.map((link: any) => ({
+        ...link,
+        date: new Date(link.date).toLocaleDateString()
+      })));
+    } catch (error) {
+      console.error('Error fetching links:', error);
+    }
+  };
 
+  fetchLinks();
+}, []);
+
+
+const handleLinkClick = async (shortUrl: string, originalUrl: string) => {
+  try {
+    await axios.get(`http://localhost:5000/api/link/${shortUrl}`);
+    // Fetch links again after the click is tracked
+    // If you want to open the link in a new tab
+    window.open(originalUrl, '_blank');
+  } catch (error) {
+    console.error('Error tracking link click:', error);
+  }
+};
     
   const buttonText = shortenedUrl ? (isCopied ? 'Copied!' : 'Copy') : 'Shorten';
   const buttonClickHandler = shortenedUrl ? () => setIsCopied(copy(shortenedUrl)) : handleShortenClick;
@@ -184,7 +190,7 @@ const Main = () => {
           <tbody>
             {links.slice().reverse().map((link) => (
               <tr key={link._id} className="flex flex-nowrap gap-5 p-5 bg-transparent">
-             <div className='flex relative w-48 justify-between cursor-pointer' onClick={() => handleLinkClick(link.originalUrl)}>
+             <div className='flex relative w-48 justify-between cursor-pointer' onClick={() => handleLinkClick(link.shortUrl, link.originalUrl)}>
                   <td>
                     {link.shortUrl}
                   </td>
@@ -196,9 +202,9 @@ const Main = () => {
                     <span className="text-green-500 absolute top-4 right-0 mt-1 mr-2">Copied</span>
                   )}
                 </div>
-                <td className='w-80 table-cell overflow-hidden text-ellipsis mr-16'>{link.originalUrl}</td>
-                <td className='w-40 mbl-short'>{link.clicks}</td>
-                <td className='table-cell w-40 mbl-short'>{link.status}</td>
+                <td className='w-80 table-cell overflow-hidden text-ellipsis mr-16'> <a href={link.originalUrl} target="_blank" rel="noopener noreferrer">{link.originalUrl}</a></td>
+                <td className='w-40 mbl-short'><LuMousePointerClick className='inline mr-4 text-red-400 text-xl'/>{link.clicks}</td>
+                <td className='table-cell text-green-600 w-40 mbl-short'>{link.status}</td>
                 <td className='w-40 mbl-short'>{new Date(link.date).toLocaleDateString()}</td>
               </tr>
             ))}
