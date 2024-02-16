@@ -18,6 +18,7 @@ export default function Home() {
   useEffect(() => {
     document.body.style.backgroundColor = darkMode ? '#0b101b' : '#c8cdd5';
     document.body.style.color = darkMode ? 'white' : 'black';
+    
     // document.body.style.border = darkMode ? '1px solid white' : '1px solid black';
   }, [darkMode]);
 

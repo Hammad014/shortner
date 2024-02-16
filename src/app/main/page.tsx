@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Image from 'next/image';
 import Navbar from '../components/Navbar';
@@ -8,17 +8,33 @@ import Footer from '../components/Footer';
 import { FaQuestion } from "react-icons/fa";
 import {Poppins} from 'next/font/google';
 import copy from 'copy-to-clipboard';
-import {nanoid} from 'nanoid';
+import { FaRegCopy } from "react-icons/fa";
 import AnimationComponent from '../components/Animation';
+import axios from 'axios';
 
 const myFont = Poppins({ weight: '400', subsets:['latin'] }) ;
+
+
+interface Link {
+  _id: string;
+  shortUrl: string;
+  originalUrl: string;
+  clicks: number;
+  status: string;
+  date: string;
+}
+
 
 const Main = () => {
 
     const [autoPaste, setAutoPaste] = useState(false);
     const [inputValue, setInputValue] = useState('');
     const [shortenedUrl, setShortenedUrl] = useState('');
+    const [originalUrl, setOriginalUrl] = useState('');
     const [isCopied, setIsCopied] = useState(false);
+    const [copied, setCopied] = useState(false);
+    const [copiedLinks, setCopiedLinks] = useState<Record<string, boolean>>({});
+    const [links, setLinks] = useState<Link[]>([]);
   
     const handleSwitchClick = async () => {
       let newAutoPasteState = autoPaste; // Store the current state
@@ -39,19 +55,12 @@ const Main = () => {
     };
 
     const handleShortenClick = async () => {
-      const longUrl = inputValue;
-  
-      if (longUrl) {
-        const newShortUrl = nanoid();
-        setShortenedUrl(newShortUrl);
-        copy(newShortUrl);
-        setIsCopied(true); // Indicate successful copy
-  
-        // Optionally display a success message
-        console.log('URL shortened and copied to clipboard!');
-      } else {
-        // Handle the case where the input field is empty
-        console.warn('Please enter a URL to shorten.');
+      try {
+        const response = await axios.post('http://localhost:5000/api/link/shorten', { originalUrl: inputValue });
+        setShortenedUrl(response.data.shortUrl);
+        setIsCopied(false);
+      } catch (error) {
+        console.error('Error shortening link:', error);
       }
     };
    
@@ -60,6 +69,49 @@ const Main = () => {
       setShortenedUrl(''); // Clear existing shortened URL on input change
       setIsCopied(false); // Reset copy status on input change
     };
+
+    const handleCopyClick = (shortUrl:any) => {
+      copy(shortUrl);
+  
+      // Update the copied state for the specific link
+      setCopiedLinks((prevCopiedLinks) => ({
+        ...prevCopiedLinks,
+        [shortUrl]: true,
+      }));
+  
+      // Reset the "Copied" state after a certain duration (e.g., 2 seconds)
+      setTimeout(() => {
+        setCopiedLinks((prevCopiedLinks) => ({
+          ...prevCopiedLinks,
+          [shortUrl]: false,
+        }));
+      }, 1000);
+    };
+
+    const handleLinkClick = (originalUrl: string) => {
+      window.open(originalUrl, '_blank');
+      // Alternatively, if you want to open the link in a new tab:
+      // window.open(originalUrl, '_blank');
+    };
+
+
+
+    useEffect(() => {
+      const fetchLinks = async () => {
+        try {
+          const response = await axios.get('http://localhost:5000/api/link/all');
+          setLinks(response.data.map((link: any) => ({
+            ...link,
+            date: new Date(link.date).toLocaleDateString()
+          })));
+        } catch (error) {
+          console.error('Error fetching links:', error);
+        }
+      };
+    
+      fetchLinks();
+    }, []);
+
     
   const buttonText = shortenedUrl ? (isCopied ? 'Copied!' : 'Copy') : 'Shorten';
   const buttonClickHandler = shortenedUrl ? () => setIsCopied(copy(shortenedUrl)) : handleShortenClick;
@@ -77,7 +129,7 @@ const Main = () => {
         <div className="relative max-w-lg m-auto mb-4 mt-5">
           <div className="absolute inset-y-0 left-2 lg:left-4 flex items-center pointer-events-none">
             <Image style={{ backgroundColor: '#0b101b' }} src='/images/link.png' width={30}
-      height={30} alt="link icon" />
+            height={30} alt="link icon" />
           </div>
           <input
             style={{ backgroundColor: '#0b101b', borderRadius:'45px'}}
@@ -98,11 +150,7 @@ const Main = () => {
           <span className='shorten-btn text-lg'>{buttonText}</span> 
           <svg className='shorten-icon-btn h-7 inline pl-1 pb-0.5' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="#e1e4ea" d="M438.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L338.8 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l306.7 0L233.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"/></svg>
         </button>
-        {/* {shortenedUrl && (
-        <div className="">
-          {shortenedUrl}
-        </div>
-      )} */}
+  
           </div>
         </div>
 
@@ -124,32 +172,36 @@ const Main = () => {
 
       <div className='text-left max-w-7xl m-auto mt-14'>
         <table className="lg:max-w-full table-long m-auto border-collapse md:max-w-4xl">
-          <thead>
-            <tr className='flex mbl-gap lg:gap-36 md:gap-24 sm:gap-12'>
-              <th>Short Link</th>
-              <th>Original Link</th>
-              <th className='mbl-short'>Clicks</th>
-              <th className='mbl-short'>Status</th>
-              <th className='mbl-short'>Date</th>
+          <thead className='bg-slate-800 text-sky-600'>
+            <tr className='flex mbl-gap p-5 gap-5'>
+              <th className='w-48'>Short Link</th>
+              <th className='w-96'>Original Link</th>
+              <th className='w-40 mbl-short'>Clicks</th>
+              <th className='w-40 mbl-short'>Status</th>
+              <th className='w-40 mbl-short'>Date</th>
             </tr>
           </thead>
           <tbody>
-            {/* <tr className="even:bg-gray-100 odd:bg-gray-200">
-              <td></td>
-              <td></td>
-              <td className='mbl-short'></td>
-              <td className='mbl-short'></td>
-              <td className='mbl-short'></td>
-            </tr> */}
-            {shortenedUrl && ( // Display the shortened URL if it exists
-              <tr className="">
-                <td>{shortenedUrl}</td>
-                <td>{inputValue}</td>
-                <td className='mbl-short'></td>
-                <td className='mbl-short'></td>
-                <td className='mbl-short'></td>
+            {links.map((link) => (
+              <tr key={link._id} className="flex flex-nowrap gap-5 p-5 bg-transparent">
+             <div className='flex relative w-48 justify-between cursor-pointer' onClick={() => handleLinkClick(link.originalUrl)}>
+                  <td>
+                    {link.shortUrl}
+                  </td>
+                  <FaRegCopy
+                    onClick={() => handleCopyClick(link.shortUrl)}
+                    className={`cursor-pointer inline mb-0.5 mr-4 transition duration-300 ease-in-out transform hover:scale-110 ${copiedLinks[link.shortUrl] ? 'text-green-500' : ''}`}
+                  />
+                  {copiedLinks[link.shortUrl] && (
+                    <span className="text-green-500 absolute top-4 right-0 mt-1 mr-2">Copied</span>
+                  )}
+                </div>
+                <td className='w-80 table-cell overflow-hidden text-ellipsis mr-16'>{link.originalUrl}</td>
+                <td className='w-40 mbl-short'>{link.clicks}</td>
+                <td className='table-cell w-40 mbl-short'>{link.status}</td>
+                <td className='w-40 mbl-short'>{new Date(link.date).toLocaleDateString()}</td>
               </tr>
-            )}
+            ))}
           </tbody>
         </table>
       </div>
