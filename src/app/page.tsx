@@ -2,16 +2,11 @@
 
 import Image from "next/image";
 import { useState , useEffect } from "react";
-import { useRouter } from "next/router";
-import Footer from "./components/Footer";
 import Main from './main/page';
-import Login from "./login/page";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Navbar from "./components/Navbar";
-// import Layout from "./components/Layout";
 
 
 export default function Home() {
+  
   const [darkMode, setDarkMode] = useState<boolean>(true);
   
 
@@ -30,6 +25,7 @@ export default function Home() {
   };
   return (
     <>
+    
         <div className="relative max-w-full" >
         {darkMode && (
           <>
@@ -63,10 +59,7 @@ export default function Home() {
           </div>
         
         </div>
-    
-
   <Main/>
-  
-    </>
+  </>
   );
 }

@@ -1,7 +1,6 @@
 "use client"
 
 import React, { useState, useEffect } from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Image from 'next/image';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
@@ -11,7 +10,10 @@ import copy from 'copy-to-clipboard';
 import { FaRegCopy } from "react-icons/fa";
 import { LuMousePointerClick } from "react-icons/lu";
 import AnimationComponent from '../components/Animation';
+import IconButton from '@mui/material/IconButton';
+import Tooltip from '@mui/material/Tooltip';
 import axios from 'axios';
+import { useShortenLink } from '../utility/ShortenUtility';
 
 const myFont = Poppins({ weight: '400', subsets:['latin'] }) ;
 
@@ -28,106 +30,51 @@ interface Link {
 
 const Main = () => {
 
-    const [autoPaste, setAutoPaste] = useState(false);
-    const [inputValue, setInputValue] = useState('');
-    const [shortenedUrl, setShortenedUrl] = useState('');
-    const [originalUrl, setOriginalUrl] = useState('');
-    const [isCopied, setIsCopied] = useState(false);
-    const [copied, setCopied] = useState(false);
-    const [copiedLinks, setCopiedLinks] = useState<Record<string, boolean>>({});
-    const [links, setLinks] = useState<Link[]>([]);
-  
-    const handleSwitchClick = async () => {
-      let newAutoPasteState = autoPaste; // Store the current state
-  
-      if (!autoPaste) {
-        try {
-          const textFromClipboard = await navigator.clipboard.readText();
-          setInputValue(textFromClipboard);
-        } catch (error) {
-          console.error('Error reading from clipboard:', error);
-        }
-      } else {
-        setInputValue('');
-      }
-  
-      newAutoPasteState = !newAutoPasteState;
-      setAutoPaste(newAutoPasteState);
-    };
-
-    const handleShortenClick = async () => {
-      try {
-        const response = await axios.post('http://localhost:5000/api/link/shorten', { originalUrl: inputValue });
-        setShortenedUrl(response.data.shortUrl);
-        setIsCopied(false);
-      } catch (error) {
-        console.error('Error shortening link:', error);
-      }
-    };
-   
-    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-      setInputValue(event.target.value);
-      setShortenedUrl(''); // Clear existing shortened URL on input change
-      setIsCopied(false); // Reset copy status on input change
-    };
-
-    const handleCopyClick = (shortUrl:any) => {
-      copy(shortUrl);
-  
-      // Update the copied state for the specific link
-      setCopiedLinks((prevCopiedLinks) => ({
-        ...prevCopiedLinks,
-        [shortUrl]: true,
-      }));
-  
-      // Reset the "Copied" state after a certain duration (e.g., 2 seconds)
-      setTimeout(() => {
-        setCopiedLinks((prevCopiedLinks) => ({
-          ...prevCopiedLinks,
-          [shortUrl]: false,
-        }));
-      }, 1000);
-    };
-
-
-
-    useEffect(() => {
-  const fetchLinks = async () => {
-    try {
-      const response = await axios.get('http://localhost:5000/api/link/all');
-      setLinks(response.data.map((link: any) => ({
-        ...link,
-        date: new Date(link.date).toLocaleDateString()
-      })));
-    } catch (error) {
-      console.error('Error fetching links:', error);
-    }
-  };
-
-  fetchLinks();
-}, []);
-
-
-const handleLinkClick = async (shortUrl: string, originalUrl: string) => {
-  try {
-    await axios.get(`http://localhost:5000/api/link/${shortUrl}`);
-    // Fetch links again after the click is tracked
-    // If you want to open the link in a new tab
-    window.open(originalUrl, '_blank');
-  } catch (error) {
-    console.error('Error tracking link click:', error);
-  }
-};
-    
-  const buttonText = shortenedUrl ? (isCopied ? 'Copied!' : 'Copy') : 'Shorten';
-  const buttonClickHandler = shortenedUrl ? () => setIsCopied(copy(shortenedUrl)) : handleShortenClick;
+  const {
+    autoPaste,
+    setAutoPaste,
+    inputValue,
+    setInputValue,
+    shortenedUrl,
+    setShortenedUrl,
+    originalUrl,
+    setOriginalUrl,
+    isCopied,
+    setIsCopied,
+    copied,
+    setCopied,
+    copiedLinks,
+    setCopiedLinks,
+    links,
+    isLoading,
+    setLinks,
+    handleSwitchClick,
+    handleShortenClick,
+    // shortenLink,
+    copyLink,
+    handleInputChange,
+    handleCopyClick,
+    handleLinkClick,
+    buttonText,
+    buttonClickHandler,
+  } = useShortenLink();
 
   return (
     <>
+   {isLoading && (
+        <div className="loading-overlay">
+          <div className="spinner mr-3"></div>
+          <div>Shortening....</div>
+        </div>
+      )}
+
+<div className={`main-content ${isLoading ? 'blurred' : ''}`} style={{ filter: `blur(${isLoading ? '8px' : '0px'})`, transition: 'filter 300ms' }}>
      <AnimationComponent />
     <div className={myFont.className}>
     <Navbar showSignIn={true} showRegister={true} showHome={false}/>
+
       <div className='lg:max-w-4xl font-fam m-auto text-center mt-20 md:max-w-lg main-div'>
+
         <h1 className='gradient-text lg:text-5xl font-fam font-extrabold p-3 md:text-4xl sm:text-3xl main-heading'>Shorten Your Loooong Links :(</h1>
         <p className='mbl-main-dis1 font-fam mt-5 max-w-lg m-auto text-lg text-center main-p '>
           Linkly is an efficient and easy-to-use URL shortening service that streamlines your online experience.
@@ -177,9 +124,10 @@ const handleLinkClick = async (shortUrl: string, originalUrl: string) => {
       </div>
 
       <div className='text-left max-w-7xl m-auto mt-14'>
+        
         <table className="lg:max-w-full table-long m-auto border-collapse md:max-w-4xl">
           <thead className='bg-slate-800 text-sky-600'>
-            <tr className='flex mbl-gap p-5 gap-5'>
+            <tr className='flex mbl-gap p-5 gap-8'>
               <th className='w-48'>Short Link</th>
               <th className='w-96'>Original Link</th>
               <th className='w-40 mbl-short'>Clicks</th>
@@ -189,29 +137,38 @@ const handleLinkClick = async (shortUrl: string, originalUrl: string) => {
           </thead>
           <tbody>
             {links.slice().reverse().map((link) => (
-              <tr key={link._id} className="flex flex-nowrap gap-5 p-5 bg-transparent">
-             <div className='flex relative w-48 justify-between cursor-pointer' onClick={() => handleLinkClick(link.shortUrl, link.originalUrl)}>
+              <tr key={link._id} className="flex relative flex-nowrap gap-5 p-5 bg-transparent">
+                {copiedLinks[link.shortUrl] && (
+                    <span className="text-green-500 absolute top-12 left-28 mt-1 mr-2">Copied</span>
+                  )}
+             <div className='scrollableshort flex justify-between cursor-pointer' onClick={() => handleLinkClick(link.shortUrl, link.originalUrl)}>
                   <td>
                     {link.shortUrl}
                   </td>
-                  <FaRegCopy
-                    onClick={() => handleCopyClick(link.shortUrl)}
-                    className={`cursor-pointer inline mb-0.5 mr-4 transition duration-300 ease-in-out transform hover:scale-110 ${copiedLinks[link.shortUrl] ? 'text-green-500' : ''}`}
-                  />
-                  {copiedLinks[link.shortUrl] && (
-                    <span className="text-green-500 absolute top-4 right-0 mt-1 mr-2">Copied</span>
-                  )}
+                  
+                  
                 </div>
-                <td className='w-80 table-cell overflow-hidden text-ellipsis mr-16'> <a href={link.originalUrl} target="_blank" rel="noopener noreferrer">{link.originalUrl}</a></td>
-                <td className='w-40 mbl-short'><LuMousePointerClick className='inline mr-4 text-red-400 text-xl'/>{link.clicks}</td>
-                <td className='table-cell text-green-600 w-40 mbl-short'>{link.status}</td>
-                <td className='w-40 mbl-short'>{new Date(link.date).toLocaleDateString()}</td>
+                <div className='relative mr-3'>
+      <Tooltip title="Copy" placement="top">
+      <IconButton>
+      <FaRegCopy
+      onClick={() => handleCopyClick(link.shortUrl)}            
+      className={`cursor-pointer absolute top-1 text-sm text-orange-600 mb-3 transition duration-300 ease-in-out transform hover:scale-110 ${copiedLinks[link.shortUrl] ? 'text-green-500' : ''}`}
+      />
+      </IconButton>
+    </Tooltip>
+    </div>
+                <td className='scrollablefull'> <a href={link.originalUrl} target="_blank" rel="noopener noreferrer">{link.originalUrl}</a></td>
+                <td className='w-40 mbl-short'><LuMousePointerClick className='inline mr-4 ml-6 text-red-400 text-xl'/>{link.clicks}</td>
+                <td className='table-cell text-green-600 w-40 mbl-short ml-8'>{link.status}</td>
+                <td className='w-40 mbl-short ml-4' >{new Date(link.date).toLocaleDateString()}</td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
       <Footer />
+    </div>
     </div>
     </>
   )
