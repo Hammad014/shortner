@@ -59,6 +59,8 @@ export const useShortenLink = () => {
 
   const shortenLink = async () => {
     try {
+      const userEmail=localStorage.getItem('email');
+      console.log('Eamail is ', userEmail);
       const response = await axios.post('http://localhost:5000/api/shorten', { originalUrl: inputValue });
       setShortenedUrl(response.data.shortUrl);
       setIsCopied(false);
@@ -66,6 +68,31 @@ export const useShortenLink = () => {
       console.error('Error shortening link:', error);
     }
   };
+
+ 
+  useEffect(() => {
+    const fetchLinks = async () => {
+      try {
+        
+        const userEmail=localStorage.getItem('email');
+        console.log('Eamail is ', userEmail);
+        const response = await axios.get('http://localhost:5000/api/links');
+        const baseShortUrl = `http://localhost:5000/`;
+        const sortedLinks = response.data
+        .sort((a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime())
+        .map((link: any) => ({
+          ...link,
+          shortUrl: baseShortUrl + link.shortUrl,  // Append the base URL here
+        }));
+
+      setLinks(sortedLinks);
+      } catch (error) {
+        console.error('Error fetching links:', error);
+      }
+    };
+  
+    fetchLinks();
+  }, []);
 
   const copyLink = (shortUrl: any) => {
     copy(shortUrl);
@@ -98,24 +125,6 @@ export const useShortenLink = () => {
     }, 1000);
   };
 
-  useEffect(() => {
-    const fetchLinks = async () => {
-      try {
-        const response = await axios.get('http://localhost:5000/api/links');
-        const baseShortUrl = `http://localhost:5000/`;
-        setLinks(response.data.map((link:any) => ({
-          ...link,
-          shortUrl: baseShortUrl + link.shortUrl,  // Append the base URL here
-          date: new Date(link.date).toLocaleDateString(),
-        })));
-      } catch (error) {
-        console.error('Error fetching links:', error);
-      }
-    };
-  
-    fetchLinks();
-  }, []);
-  
 
   const handleLinkClick = async (shortUrl: string, originalUrl: string) => {
     try {

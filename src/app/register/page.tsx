@@ -9,6 +9,7 @@ import Layout from '../components/Layout';
 import { MdEmail , MdOutlineEmail} from "react-icons/md";
 import { FaLock } from "react-icons/fa6";
 import axios from 'axios';
+import Animate from '../components/RouteAnimate';
 import { FaEyeSlash, FaEye, FaGoogle, FaUser, FaCheckCircle, FaExclamationCircle } from "react-icons/fa";
 
 const Register = () => {
@@ -16,6 +17,7 @@ const Register = () => {
   const [showEmailForm, setShowEmailForm] = useState(false);
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     firstName: '',
     email: '',
@@ -27,6 +29,12 @@ const Register = () => {
     password: '',
     confirmPassword: '',
     recaptcha: '',
+  });
+
+  const [passwordValidations, setPasswordValidations] = useState({
+    minLength: false,
+    containsNum: false,
+    containsAlpha: false,
   });
 
   const togglePasswordVisibility = () => {
@@ -45,8 +53,19 @@ const Register = () => {
     });
     setErrors({
       ...errors,
-      [name]: '', // Clear the error when the user starts typing
+      [name]: '',
     });
+
+    if (name === 'password') {
+      const minLength = value.length >= 8;
+      const containsNum = /\d/.test(value);
+      const containsAlpha = /[a-zA-Z]/.test(value);
+      setPasswordValidations({
+        minLength,
+        containsNum,
+        containsAlpha,
+      });
+    }
   };
 
   const handleRecaptchaChange = async (value: string | null) => {
@@ -81,6 +100,14 @@ const Register = () => {
       return;
     }
 
+    if (!passwordValidations.minLength || !passwordValidations.containsNum || !passwordValidations.containsAlpha) {
+      setErrors({
+        ...errors,
+        password: 'Password does not meet all requirements',
+      });
+      return;
+    }
+
     if (formData.password !== formData.confirmPassword) {
       setErrors({
         ...errors,
@@ -89,34 +116,34 @@ const Register = () => {
       return;
     }
 
+    setIsLoading(true); // Start loading before the request
+
     try {
       const response = await axios.post('http://localhost:5000/api/user/register', formData);
       console.log(response.data);
-
       setFormSubmitted(true);
-
-        
-        // Handle successful login, e.g., redirect to a new page or show a success message
-
-
-        router.push(`/login`);
-        // Update user context after successful login
-    
-        // You may want to redirect the user to another page
-       
-     
-      
+      localStorage.setItem('user', JSON.stringify(response.data.user));
+      router.push(`/Shorten`);
     } catch (error: any) {
       console.error('Error registering user:', error.response.data);
       setErrors({
         ...errors,
         email: error.response.data.error || '',
       });
+    } finally {
+      setIsLoading(false); // Stop loading after the request is handled
     }
   };
 
   return (
     <>
+    {isLoading && (
+      <div className="loading-overlay">
+        <div className="spinner"></div>
+        <div className='ml-3'>Registering...</div>
+      </div>
+    )}
+    <Animate>
       <Layout>
         <Navbar showSignIn={true} showRegister={false} showHome={true} />
         <div className="flex z-10 items-center font-fam justify-center">
@@ -189,6 +216,12 @@ const Register = () => {
                     </button>
                   </div>
 
+                  <ul className="list-disc pl-10 text-gray-500">
+                  <li className='font-semibold text-lg' style={{ color: passwordValidations.minLength ? 'green' : 'gray' }}>Should at least 8 characters</li>
+                  <li className='font-semibold text-lg' style={{ color: passwordValidations.containsAlpha ? 'green' : 'gray' }}>It should contains an alphabet</li>
+                  <li className='font-semibold text-lg' style={{ color: passwordValidations.containsNum ? 'green' : 'gray' }}>It should Contains a number</li>
+                </ul>
+
                   <div className="relative flex items-center align-middle">
                     <span className="absolute left-4 mt-1">
                       <FaLock className='ml-2 inline h-5 pb-1'/>
@@ -221,7 +254,8 @@ const Register = () => {
                   {errors.recaptcha && <p className="text-red-500 flex justify-center">{errors.recaptcha}</p>}
                   {errors.confirmPassword && <p className="text-red-500 flex justify-center">{errors.confirmPassword}</p>}
                   {errors.email && <p className="text-red-500 flex justify-center">{errors.email}</p>}
-                  
+                  {errors.password && <p className="text-red-500 flex justify-center">{errors.password}</p>}
+
                   <button
                     className="bg-blue-500 sign-in-w w-96 text-xl mt-3 block p-3 mr-4 hover:bg-blue-600 focus:outline-none"
                     style={{ borderRadius: '50px' }}
@@ -251,6 +285,7 @@ const Register = () => {
         </div>
         <Footer />
       </Layout>
+      </Animate>
     </>
   );
 }

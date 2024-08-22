@@ -20,6 +20,7 @@ const linkSchema = new mongoose.Schema({
   clicks: { type: Number, default: 0 },
   status: { type: String, default: 'Active' },
   date: { type: Date, default: Date.now },
+  
 });
 
 const LinkModel = mongoose.model('Link', linkSchema);

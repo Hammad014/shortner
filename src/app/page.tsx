@@ -3,7 +3,10 @@
 import Image from "next/image";
 import { useState , useEffect } from "react";
 import Main from './main/page';
-
+import { AnimatePresence } from 'framer-motion';
+import Layout from './components/Layout';
+import type { AppProps } from 'next/app'; 
+import Animate from './components/RouteAnimate';
 
 export default function Home() {
   
@@ -25,6 +28,7 @@ export default function Home() {
   };
   return (
     <>
+     <Animate>
     
         <div className="relative max-w-full" >
         {darkMode && (
@@ -60,6 +64,7 @@ export default function Home() {
         
         </div>
   <Main/>
+  </Animate>
   </>
   );
 }

@@ -9,6 +9,8 @@ import { FaBarsStaggered } from 'react-icons/fa6';
 import { IoMdArrowDropdownCircle } from "react-icons/io";
 import Link from 'next/link';
 import next from 'next';
+import {RegisterLink, LoginLink} from "@kinde-oss/kinde-auth-nextjs/components";
+
 
 interface NavbarProps {
   showSignIn: boolean;
@@ -71,6 +73,8 @@ const Navbar: React.FC<NavbarProps> = ({ showSignIn, showRegister, showHome }) =
                 Login
               </Link>
             )}
+            <LoginLink>Sign in</LoginLink>
+            <RegisterLink>Sign up</RegisterLink>
             {showRegister && (
               <Link
                 href='/register'

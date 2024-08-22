@@ -5,11 +5,12 @@ import Image from 'next/image';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import Layout from '../components/Layout';
-
+import Animate from '../components/RouteAnimate';
 
 const page = () => {
   return (
     <>
+    <Animate>
     <Layout>
    
     <div className='font-fam relative'>
@@ -115,6 +116,7 @@ const page = () => {
       </div>
       </Layout>
       <Footer/>
+      </Animate>
     </>
   )
 }

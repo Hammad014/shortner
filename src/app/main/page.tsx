@@ -50,7 +50,7 @@ const Main = () => {
     setLinks,
     handleSwitchClick,
     handleShortenClick,
-    // shortenLink,
+    shortenLink,
     copyLink,
     handleInputChange,
     handleCopyClick,
@@ -58,6 +58,12 @@ const Main = () => {
     buttonText,
     buttonClickHandler,
   } = useShortenLink();
+
+  const [showAll, setShowAll] = useState(false);
+
+  const handleViewMore = () => {
+    setShowAll(!showAll);
+  };
 
   return (
     <>
@@ -124,7 +130,7 @@ const Main = () => {
       </div>
 
       <div className='text-left max-w-7xl m-auto mt-14'>
-        
+      <div className='mb-6 ml-7'>  <span className=' font-bold text-xl bg-orange-800 p-3 rounded-r-2xl'>Recently Generated Links</span></div>
         <table className="lg:max-w-full table-long m-auto border-collapse md:max-w-4xl">
           <thead className='bg-slate-800 text-sky-600'>
             <tr className='flex mbl-gap p-5 gap-8'>
@@ -136,36 +142,38 @@ const Main = () => {
             </tr>
           </thead>
           <tbody>
-            {links.slice().reverse().map((link) => (
-              <tr key={link._id} className="flex relative flex-nowrap gap-5 p-5 bg-transparent">
-                {copiedLinks[link.shortUrl] && (
-                    <span className="text-green-500 absolute top-12 left-28 mt-1 mr-2">Copied</span>
-                  )}
-             <div className='scrollableshort flex justify-between cursor-pointer' onClick={() => handleLinkClick(link.shortUrl, link.originalUrl)}>
-                  <td>
-                    {link.shortUrl}
-                  </td>
-                  
-                  
-                </div>
-                <div className='relative mr-3'>
-      <Tooltip title="Copy" placement="top">
-      <IconButton>
-      <FaRegCopy
-      onClick={() => handleCopyClick(link.shortUrl)}            
-      className={`cursor-pointer absolute top-1 text-sm text-orange-600 mb-3 transition duration-300 ease-in-out transform hover:scale-110 ${copiedLinks[link.shortUrl] ? 'text-green-500' : ''}`}
-      />
-      </IconButton>
-    </Tooltip>
-    </div>
-                <td className='scrollablefull'> <a href={link.originalUrl} target="_blank" rel="noopener noreferrer">{link.originalUrl}</a></td>
-                <td className='w-40 mbl-short'><LuMousePointerClick className='inline mr-4 ml-6 text-red-400 text-xl'/>{link.clicks}</td>
-                <td className='table-cell text-green-600 w-40 mbl-short ml-8'>{link.status}</td>
-                <td className='w-40 mbl-short ml-4' >{new Date(link.date).toLocaleDateString()}</td>
-              </tr>
-            ))}
-          </tbody>
+                {(showAll ? links : links.slice(0, 5)).map((link) => (
+                  <tr key={link._id} className="flex relative flex-nowrap gap-5 p-5 bg-transparent">
+                    <div className='scrollableshort flex justify-between cursor-pointer' onClick={() => handleLinkClick(link.shortUrl, link.originalUrl)}>
+                      <td>{link.shortUrl}</td>
+                    </div>
+                    <div className='relative mr-3'>
+                      <Tooltip title="Copy" placement="top">
+                        <IconButton>
+                          <FaRegCopy onClick={() => handleCopyClick(link.shortUrl)}
+                            className={`cursor-pointer absolute top-1 text-sm text-orange-600 mb-3 transition duration-300 ease-in-out transform hover:scale-110 ${copiedLinks[link.shortUrl] ? 'text-green-500' : ''}`}
+                          />
+                        </IconButton>
+                      </Tooltip>
+                      {copiedLinks[link.shortUrl] && (
+          <span className="absolute top-8 right-5 text-green-500 text-sm">Copied</span>
+        )}
+                    </div>
+                    <td className='scrollablefull'><a href={link.originalUrl} target="_blank" rel="noopener noreferrer">{link.originalUrl}</a></td>
+                    <td className='w-40 mbl-short'><LuMousePointerClick className='inline mr-4 ml-6 text-red-400 text-xl'/>{link.clicks}</td>
+                    <td className='table-cell text-green-600 w-40 mbl-short ml-8'>{link.status}</td>
+                    <td className='w-40 mbl-short ml-4'>{new Date(link.date).toLocaleDateString()}</td>
+                  </tr>
+                ))}
+              </tbody>
         </table>
+        {links.length > 8 && (
+           <div className="flex justify-center mt-4 mb-4"> 
+              <button onClick={handleViewMore} className="mt-4 mb-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-4 px-6 rounded-3xl">
+                {showAll ? 'View Less' : 'View More Links'}
+              </button>
+              </div>
+            )}
       </div>
       <Footer />
     </div>

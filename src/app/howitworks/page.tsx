@@ -2,10 +2,12 @@ import React from 'react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import Layout from '../components/Layout';
+import Animate from '../components/RouteAnimate';
 
 const page = () => {
   return (
     <>
+    <Animate>
 <Layout>
     <div>
       <Navbar showSignIn={true} showRegister={true} showHome={true}/>
@@ -68,6 +70,7 @@ const page = () => {
     </div>
     </Layout>
     <Footer/>
+    </Animate>
     </>
   )
 }
