@@ -40,7 +40,7 @@ interface Link {
 }
 
 
-const page: React.FC = () => {
+const Page: React.FC = () => {
   
   const [age, setAge] = React.useState('');
   const [value, setValue] = React.useState('1');
@@ -665,4 +665,4 @@ useEffect(() => {
   )
 }
 
-export default page;
+export default Page;
