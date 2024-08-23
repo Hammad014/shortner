@@ -7,7 +7,7 @@ import Animate from '../components/RouteAnimate';
 const page = () => {
   return (
     <>
-    <Animate>
+    
     <Layout>
     <div>
       <Navbar showSignIn={true} showRegister={true} showHome={true}/>
@@ -86,7 +86,7 @@ const page = () => {
     </div>
     </Layout>
     <Footer/>
-    </Animate>
+    
     </>
   )
 }

@@ -4,10 +4,10 @@ import Footer from '../components/Footer';
 import Layout from '../components/Layout';
 import Animate from '../components/RouteAnimate';
 
-const page = () => {
+const Page = () => {
   return (
     <>
-    <Animate>
+   
 <Layout>
     <div>
       <Navbar showSignIn={true} showRegister={true} showHome={true}/>
@@ -70,9 +70,9 @@ const page = () => {
     </div>
     </Layout>
     <Footer/>
-    </Animate>
+    
     </>
   )
 }
 
-export default page;
+export default Page;
