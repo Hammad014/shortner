@@ -560,92 +560,81 @@ useEffect(() => {
             </tr>
           </thead>
           <tbody>
-            {userLinks
-  .slice()
-  .reverse()
-  .map((link, index) => (
-              <div>
-              <tr key={link._id} className="relative flex flex-nowrap gap-5 p-5 bg-transparent">
-                <td className='w-20 mbl-short'>{index+1}</td>
-             <div className='scrollableshort flex justify-between cursor-pointer' onClick={() => handleLinkClick(link.shortUrl, link.originalUrl)}>
-                  <td>
-                    {link.shortUrl}
-                  </td>
-                  
-                  {copiedLinks[link.shortUrl] && (
-                   
-                    <span className="text-green-500 absolute top-12 left-56 mt-1 mr-2">Copied</span>
-                    
-                  )}
-                </div>
-                <div className='relative mr-3'>
-      <Tooltip title="Copy Short Link" placement="top">
-      <IconButton>
-      <FaRegCopy
-      onClick={() => handleCopyClick(link.shortUrl)}            
-      className={`cursor-pointer absolute top-0 text-sm text-orange-600 mb-3 transition duration-300 ease-in-out transform hover:scale-110 ${copiedLinks[link.shortUrl] ? 'text-green-500' : ''}`}
-      />
-      </IconButton>
-    </Tooltip>
-    </div>      
-                   
-                <td className='scrollablefull'> <a href={link.originalUrl} target="_blank" rel="noopener noreferrer">{link.originalUrl}</a></td>
-                <td className='w-32 mbl-short'><LuMousePointerClick className='inline mr-4 text-red-400 text-xl'/>{link.clicks}</td>
-                <td className='table-cell text-green-600 w-32 mbl-short'>{link.status}</td>
-                <td className='w-32 mbl-short'>{new Date(link.date).toLocaleDateString()}</td>
-                <td className='w-20 mbl-short'>
-                  <div className='relative mr-3'>
-                <Tooltip title="Delete Link" placement="top">
-              <IconButton>
-              <MdDelete
-                      className='inline absolute -top-1 text-orange-600 h-5 mt-0 mb-3 cursor-pointer'
-                      onClick={() => openDeleteConfirmation(link._id)}
-                      />
-             </IconButton>
-             </Tooltip>
-             </div>
-                      
-                </td>
-              </tr>
-
-
-              {isConfirmationModalOpen && (
-  <div className="fixed z-10 inset-0 overflow-y-auto">
-    <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-      <div className="fixed inset-0 transition-opacity">
-        <div className="absolute inset-0 bg-transparent opacity-75"></div>
-      </div>
-      <span className="hidden sm:inline-block sm:align-middle sm:h-screen"></span>
-      &#8203;
-      <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
-        <div className="bg-white p-4">
-          <p className="text-xl text-gray-700 font-bold">Confirm Deletion</p>
-          <p className='text-gray-700'>Are you sure you want to delete this link?</p>
-          <div className="mt-4 flex justify-end">
-            <button
-              onClick={handleDeleteLink}   // Use linkToDelete state
-              className="ml-2 inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-red-500 border border-transparent rounded-md shadow-sm hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
-            >
-              Confirm
-            </button>
-            
-            <button
-              onClick={handleCancelDelete}
-              className="ml-2 inline-flex justify-center px-4 py-2 text-sm font-medium text-gray-700 bg-gray-200 border border-transparent rounded-md shadow-sm hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
-            >
-              Cancel
-            </button>
+  {userLinks
+    .slice()
+    .reverse()
+    .map((link, index) => (
+      <div key={link._id}> {/* Added the key prop here */}
+        <tr key={link._id} className="relative flex flex-nowrap gap-5 p-5 bg-transparent">
+          <td className='w-20 mbl-short'>{index + 1}</td>
+          <div className='scrollableshort flex justify-between cursor-pointer' onClick={() => handleLinkClick(link.shortUrl, link.originalUrl)}>
+            <td>{link.shortUrl}</td>
+            {copiedLinks[link.shortUrl] && (
+              <span className="text-green-500 absolute top-12 left-56 mt-1 mr-2">Copied</span>
+            )}
           </div>
-        </div>
+          <div className='relative mr-3'>
+            <Tooltip title="Copy Short Link" placement="top">
+              <IconButton>
+                <FaRegCopy
+                  onClick={() => handleCopyClick(link.shortUrl)}
+                  className={`cursor-pointer absolute top-0 text-sm text-orange-600 mb-3 transition duration-300 ease-in-out transform hover:scale-110 ${copiedLinks[link.shortUrl] ? 'text-green-500' : ''}`}
+                />
+              </IconButton>
+            </Tooltip>
+          </div>      
+          <td className='scrollablefull'><a href={link.originalUrl} target="_blank" rel="noopener noreferrer">{link.originalUrl}</a></td>
+          <td className='w-32 mbl-short'><LuMousePointerClick className='inline mr-4 text-red-400 text-xl'/>{link.clicks}</td>
+          <td className='table-cell text-green-600 w-32 mbl-short'>{link.status}</td>
+          <td className='w-32 mbl-short'>{new Date(link.date).toLocaleDateString()}</td>
+          <td className='w-20 mbl-short'>
+            <div className='relative mr-3'>
+              <Tooltip title="Delete Link" placement="top">
+                <IconButton>
+                  <MdDelete
+                    className='inline absolute -top-1 text-orange-600 h-5 mt-0 mb-3 cursor-pointer'
+                    onClick={() => openDeleteConfirmation(link._id)}
+                  />
+                </IconButton>
+              </Tooltip>
+            </div>
+          </td>
+        </tr>
+        {isConfirmationModalOpen && (
+          <div className="fixed z-10 inset-0 overflow-y-auto">
+            <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+              <div className="fixed inset-0 transition-opacity">
+                <div className="absolute inset-0 bg-transparent opacity-75"></div>
+              </div>
+              <span className="hidden sm:inline-block sm:align-middle sm:h-screen"></span>
+              &#8203;
+              <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+                <div className="bg-white p-4">
+                  <p className="text-xl text-gray-700 font-bold">Confirm Deletion</p>
+                  <p className='text-gray-700'>Are you sure you want to delete this link?</p>
+                  <div className="mt-4 flex justify-end">
+                    <button
+                      onClick={handleDeleteLink}   // Use linkToDelete state
+                      className="ml-2 inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-red-500 border border-transparent rounded-md shadow-sm hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                    >
+                      Confirm
+                    </button>
+                    <button
+                      onClick={handleCancelDelete}
+                      className="ml-2 inline-flex justify-center px-4 py-2 text-sm font-medium text-gray-700 bg-gray-200 border border-transparent rounded-md shadow-sm hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
-    </div>
-  </div>
-)}
+    ))}
+</tbody>
 
-</div>
-
-            ))}
-          </tbody>
         </table>
       </div>
       {userLinks.length === 0 && <p>No links found.</p>}
