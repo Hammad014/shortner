@@ -9,7 +9,7 @@ import { FaBarsStaggered } from 'react-icons/fa6';
 import { IoMdArrowDropdownCircle } from "react-icons/io";
 import Link from 'next/link';
 import next from 'next';
-import {RegisterLink, LoginLink} from "@kinde-oss/kinde-auth-nextjs/components";
+// import {RegisterLink, LoginLink} from "@kinde-oss/kinde-auth-nextjs/components";
 
 
 interface NavbarProps {
@@ -55,8 +55,8 @@ const Navbar: React.FC<NavbarProps> = ({ showSignIn, showRegister, showHome }) =
     <>
       <div className='flex justify-between text-white max-w-7xl m-auto p-5 nav-top-div items-center'>
         <div className='flex justify-center items-center gap-10'>
-          <Image className='logo-head' src='/images/Linkly.png' height={45} width={150} alt='logo' />
-          <Link href='/'>{showHome && <FaHome className='inline text-4xl mb-1' />}</Link>
+        <Link href='/'>  <Image className='logo-head' src='/images/Linkly.png' height={45} width={150} alt='logo' /></Link>
+          {/* {showHome && <FaHome className='inline text-4xl mb-1' />} */}
         </div>
 
         <div onClick={handleMenuToggle} className='normal-menu cursor-pointer block lg:hidden'>
@@ -73,8 +73,7 @@ const Navbar: React.FC<NavbarProps> = ({ showSignIn, showRegister, showHome }) =
                 Login
               </Link>
             )}
-            <LoginLink>Sign in</LoginLink>
-            <RegisterLink>Sign up</RegisterLink>
+            
             {showRegister && (
               <Link
                 href='/register'

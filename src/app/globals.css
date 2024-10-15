@@ -18,6 +18,7 @@ body{
   margin: 0;
   padding: 0;
   font-family: "Poppins", sans-serif;
+  overflow-x: hidden;
 }
 
 .gradient-text{
@@ -70,7 +71,9 @@ body{
   }
   
   .dashboard-input{
-     width: 650px;
+     max-width: 650px;
+     margin: 0 auto;
+  
   }
 
   .switch.on .slider {
@@ -231,6 +234,12 @@ body{
 
   
   @media only screen and (max-width: 767px) {
+    .switchtheme {
+      display: none;
+    }
+    .user-circle-icon{
+      display: none;
+    }
     .theme-mbl{
       top: 30px;
       right: 50%;
@@ -271,6 +280,16 @@ body{
   
   
   @media only screen and (max-width: 639px){
+
+    .switchtheme {
+      display: none;
+    }
+    .user-circle-icon{
+      display: none;
+    }
+    body{
+      overflow-x: hidden;
+    }
     .theme-mbl{
       top: 20px;
       right: 20%;
@@ -340,17 +359,10 @@ body{
   .articles{
     margin-left: 5px;
   }
-  .mbl-cube2{
-    top: 200px;
+  .mbl-cube1, .mbl-cube2, .mbl-cube3{
+    display: none;
   }
-  .mbl-cube3{
-     top: 450px;
-     left: 50px;
-     overflow: hidden;
-  }
-  .mbl-cube4{
-     display: none;
-  }
+ 
   .white-thm-1{
     width: 180px;
     height: 100px;
@@ -359,3 +371,68 @@ body{
     display: none;
   }
   }
+
+
+
+
+
+
+  /* Media queries for responsiveness on screens less than 1000px */
+@media (max-width: 1000px) {
+  /* General adjustments */
+  .main-content {
+      padding: 1rem; /* Reduce padding */
+  }
+ 
+  .nav-top-div {
+      
+     
+  }
+
+  .dashboard-input {
+      width: 100%; /* Full width for input */
+      margin: 1rem 0; /* Add margin for spacing */
+  }
+
+  /* Adjust button styles */
+  .link-btn {
+      width: 100%; /* Full width for buttons */
+      padding: 1rem; /* More padding for better touch targets */
+  }
+
+  .mbl-menu {
+      flex-direction: column; /* Stack menu items vertically */
+      align-items: center; /* Center align for better appearance */
+  }
+
+  /* Responsive Table Styles */
+  table {
+      width: 100%; /* Full width */
+      display: block; /* Make table scrollable */
+      overflow-x: auto; /* Enable horizontal scrolling */
+      white-space: nowrap; /* Prevent table cells from wrapping */
+  }
+
+  th, td {
+      padding: 0.5rem; /* Reduce padding for smaller screens */
+      font-size: 0.9rem; /* Slightly smaller font size */
+  }
+
+  /* Flex item adjustments */
+  .scrollableshort {
+      flex-direction: column; /* Stack short link and action vertically */
+      align-items: flex-start; /* Align items to the start */
+  }
+
+  /* Adjust icons */
+  .h-5 {
+      height: 20px; /* Adjust icon sizes */
+  }
+  
+
+  /* Hide specific elements if necessary */
+  .dropdown-content {
+      width: 90%; /* Adjust width for dropdown */
+      max-width: 300px; /* Maximum width for dropdown */
+  }
+}

@@ -6,12 +6,13 @@ import dotenv from 'dotenv';
 import userRoutes from './routes/userRoutes.js'
 import LinkModel from './models/LinkModel.js';
 import UserGeneratedLinks from './models/UserGeneratedLinks.js';
+
 dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 5000;
 
-const dbUrl = 'mongodb+srv://hammad:hammadMDB2172@nextproject.dnj1h9q.mongodb.net/?retryWrites=true&w=majority' ;
+const dbUrl = process.env.MONGODB_URI;
 
 mongoose.connect(dbUrl)
   .then(() => console.log("Database Connected"))

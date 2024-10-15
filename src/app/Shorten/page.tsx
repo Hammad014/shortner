@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
-import { FaAngleDown, FaHistory, FaUserCircle } from 'react-icons/fa';
+import { FaAngleDown, FaHistory,FaLink ,FaUserCircle } from 'react-icons/fa';
 import { IoNotificationsCircleOutline } from 'react-icons/io5';
 import { Transition } from 'react-transition-group';
 import Layout from '../components/Layout';
@@ -398,13 +398,68 @@ useEffect(() => {
     <ProtectedRoute>
 <Layout>
 
-       <div className='flex justify-between text-white max-w-7xl m-auto p-5 nav-top-div items-center'>
-        <div className='flex justify-center items-center gap-10'>
-          <Image className='logo-head' src='/images/Linkly.png' height={45} width={150} alt='logo' />
-         
-        </div>
+<div className='flex justify-between text-white max-w-7xl m-auto p-5 nav-top-div items-center'>
+  <div className='flex justify-center items-center gap-10'>
+    <Image className='logo-head' src='/images/Linkly.png' height={45} width={150} alt='logo' />
+  </div>
 
-        <div className="relative dashboard-input m-auto mb-4 mt-5 ml-16">
+  <div className="mbl-menu flex menu-items gap-10 items-start">
+    <div className="lg:text-xl font-fam font-semibold p-2 relative">
+      {/* Profile Section */}
+      <div
+        className="cursor-pointer flex items-center"
+        onClick={() => setDropdownVisible(!dropdownVisible)}
+      >
+        {/* Avatar and First Name */}
+        {firstName && (
+          <div className="flex items-center">
+            {/* Avatar Circle - Always Visible */}
+            <div className="flex items-center justify-center bg-blue-500 text-white rounded-full h-8 w-8 text-sm mr-2">
+              {firstName.charAt(0).toUpperCase()}
+            </div>
+           
+            {/* First Name - Visible on Medium and Larger Screens */}
+            <span className="text-white mr-2 hidden md:inline">{firstName}</span>
+            
+            {/* Dropdown Icon */}
+            <FaAngleDown className="text-white" />
+          </div>
+        )}
+      </div>
+
+      {/* Dropdown Menu */}
+      <Transition
+        in={dropdownVisible}
+        timeout={300}
+        unmountOnExit
+        mountOnEnter
+      >
+        {(state) => (
+          <div
+            className={`dropdown-content absolute top-full right-0 bg-white rounded-md shadow-lg z-20 transition-all duration-300 ease-out transform ${
+              state === 'entered' ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
+            }`}
+          >
+            <div className="logout-container flex justify-center p-4">
+              <button
+                onClick={handleLogout}
+                className="logout-button bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-md"
+              >
+                Logout
+              </button>
+              
+            </div>
+          </div>
+        )}
+      </Transition>
+    </div>
+  </div>
+</div>
+
+
+
+    <div className='py-10'>
+      <div className="relative dashboard-input m-auto mb-4 mt-5 ml-16">
           <div className="absolute inset-y-0 left-2 lg:left-4 flex items-center pointer-events-none">
             <Image style={{ backgroundColor: '#0b101b' }} src='/images/link.png' width={30}
             height={30} alt="link icon" />
@@ -430,52 +485,10 @@ useEffect(() => {
         </button>
   
           </div>
-
         </div>
-
-        <div className="mbl-menu flex menu-items gap-10 items-start">
-          
-        <div className="lg:text-xl font-fam font-semibold p-2 relative">
-  <div
-    className="cursor-pointer profilic absolute -top-5 right-5"
-    onClick={() => setDropdownVisible(!dropdownVisible)}
-  >
-    {firstName && (
-      <div className="flex items-center">
-        <FaUserCircle  className='inline mr-2'/>
-        <span className="text-white mr-2">{firstName}</span>
-        <FaAngleDown className="text-white" />
-      </div>
-    )}
-    <Transition
-      in={dropdownVisible}
-      timeout={300}
-      unmountOnExit
-      mountOnEnter
-    >
-      {(state) => (
-        <div
-          className={`dropdown-content transition-max-height ease-out duration-300 overflow-hidden ${state}`}
-          style={{
-            height: state === 'entered' ? '80px' : '0',
-          }}
-          onClick={() => setDropdownVisible(false)}
-        >
-          <div className="logout-container flex justify-center">
-            <button 
-            onClick={handleLogout}
-            className="logout-button bg-red-500 hover:bg-red-700 text-white font-bold py-2 max-w-32 px-4 mt-8 rounded-2xl">
-              Logout
-            </button>
-          </div>
+        <div></div>
         </div>
-      )}
-    </Transition>
-  </div>
-</div>
-    </div>
-
-      </div>
+       
       <div className='flex justify-center items-center gap-2 m-auto mb-20'>
           <div className={`switch ${autoPaste ? 'on' : ''}`} onClick={handleSwitchClick}>
             <div className='slider'></div>
@@ -488,13 +501,29 @@ useEffect(() => {
       
         <Box className='relative flex justify-center' sx={{ borderBottom: 1, borderColor: 'divider' }}>
         
-          <TabList className='' onChange={handleChange} aria-label="lab API tabs example">
-          <GoHistory className='absolute top-4 left-3 text-sm'/>
-            <Tab className='text-md text-yellow-800 font-bold mr-4 pl-8' label='All History' value="1" />
-          <PiLinkSimpleBold className='absolute top-4 right-28 text-sm'/>
-            <Tab className='text-md text-yellow-800 font-bold pl-8' label="Your Links" value="2" />
+        <TabList className='' onChange={handleChange} aria-label="lab API tabs example">
+            <Tab
+                value="1"
+                className='text-md text-yellow-800 font-bold mr-4 pl-8'
+                label={
+                    <Box display="flex" alignItems="center">
+                        <FaHistory className='mr-2' />
+                        All History
+                    </Box>
+                }
+            />
+            <Tab
+                value="2"
+                className='text-md text-yellow-800 font-bold pl-8'
+                label={
+                    <Box display="flex" alignItems="center">
+                        <FaLink className='mr-2' />
+                        Your Links
+                    </Box>
+                }
+            />
             {/* <Tab className='text-white' label="Item Three" value="3" /> */}
-          </TabList>
+        </TabList>
         </Box>
         
         <TabPanel value="1">
@@ -550,13 +579,13 @@ useEffect(() => {
           <thead className='bg-slate-800 text-sky-600'>
             <tr className='flex mbl-gap p-5 gap-5'>
             
-            <th className='w-20'>ID</th>
+            <th className='w-20 mbl-short'>ID</th>
               <th className='w-48'>Short Link</th>
               <th className='w-96'>Original Link</th>
               <th className='w-32 mbl-short'>Clicks</th>
               <th className='w-32 mbl-short'>Status</th>
               <th className='w-32 mbl-short'>Date</th>
-              <th className='w-20 mbl-short'>Action</th>
+              <th className='w-20'>Action</th>
             </tr>
           </thead>
           <tbody>
@@ -587,7 +616,7 @@ useEffect(() => {
           <td className='w-32 mbl-short'><LuMousePointerClick className='inline mr-4 text-red-400 text-xl'/>{link.clicks}</td>
           <td className='table-cell text-green-600 w-32 mbl-short'>{link.status}</td>
           <td className='w-32 mbl-short'>{new Date(link.date).toLocaleDateString()}</td>
-          <td className='w-20 mbl-short'>
+          <td className='w-20'>
             <div className='relative mr-3'>
               <Tooltip title="Delete Link" placement="top">
                 <IconButton>

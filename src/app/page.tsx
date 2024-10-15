@@ -30,7 +30,7 @@ export default function Home() {
     <>
      <Animate>
     
-        <div className="relative max-w-full" >
+        <div className="relative max-w-full overflow-x-hidden" >
         {darkMode && (
           <>
             <Image className='mbl-cube1 cube1 absolute z-0 top-0 right-10' src='/images/Rectangle 4 (1).png' height={250} width={350} alt='cube1'/>
